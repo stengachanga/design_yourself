@@ -1,6 +1,8 @@
-# PsyConstructor — лендинг курсов гештальт-терапии
+# design_yourself — лендинг курсов гештальт-терапии
 
 Одностраничный маркетинговый сайт для рекламы психологических курсов с акцентом на гештальт-подход.
+
+**Сайт:** https://stengachanga.github.io/design_yourself/
 
 ## Локальный запуск
 
@@ -60,7 +62,7 @@ npx serve .
 2. **Settings → Pages → Build and deployment**
 3. Source: **Deploy from a branch**
 4. Branch: `main`, folder: `/docs`
-5. Сохраните — сайт будет доступен по адресу `https://<user>.github.io/<repo>/`
+5. Сохраните — сайт будет доступен по адресу `https://stengachanga.github.io/design_yourself/`
 
 Перед деплоем синхронизируйте `docs/` с корнем:
 

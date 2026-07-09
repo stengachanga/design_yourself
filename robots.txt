@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stengachanga.github.io/design_yourself/sitemap.xml

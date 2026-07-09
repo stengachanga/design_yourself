@@ -47,12 +47,26 @@ npx serve .
 
 ## Telegram
 
-Ссылка на Telegram оставлена пустой (`href=""`). Когда будет готов канал/бот:
+Укажите username в `js/config.js`:
 
-1. Откройте `index.html`
-2. Найдите `<a id="telegram-link"` и укажите URL, например `https://t.me/your_channel`
-3. Удалите атрибуты `aria-disabled="true"` и `data-empty="true"`
-4. Обновите текст кнопки
+```js
+telegramUsername: "your_channel",
+```
+
+Кнопка Telegram появится автоматически в блоке контактов.
+
+## Отправка заявок
+
+Настройки в `js/config.js`:
+
+```js
+formEndpoint: "",        // URL Formspree: "https://formspree.io/f/xxxxx"
+contactEmail: "...",     // fallback mailto
+contactPhone: "+7...",   // ссылка «Позвонить»
+telegramUsername: "",    // ссылка Telegram
+```
+
+Без `formEndpoint` форма открывает mailto с заполненным телом письма и сохраняет заявку в localStorage.
 
 ## GitHub Pages
 

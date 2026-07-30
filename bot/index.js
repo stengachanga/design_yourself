@@ -14,10 +14,23 @@ require("dotenv").config();
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const ADMIN_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const ADMIN_USERNAME = (process.env.TELEGRAM_ADMIN_USERNAME || "")
+  .trim()
+  .replace(/^@/, "")
+  .toLowerCase();
 
 if (!TOKEN) {
   console.error("Задайте TELEGRAM_BOT_TOKEN в .env");
   process.exit(1);
+}
+
+if (!ADMIN_CHAT_ID || String(ADMIN_CHAT_ID).includes("PLACEHOLDER")) {
+  console.warn(
+    "TELEGRAM_CHAT_ID не задан — заявки не будут пересылаться. " +
+      (ADMIN_USERNAME
+        ? `Ожидается логин @${ADMIN_USERNAME}: напишите боту /start, затем укажите chat_id в .env`
+        : "Задайте TELEGRAM_CHAT_ID и TELEGRAM_ADMIN_USERNAME в .env")
+  );
 }
 
 const API = `https://api.telegram.org/bot${TOKEN}`;
@@ -51,7 +64,10 @@ const START_KEYBOARD = {
 };
 
 async function notifyAdmin(text) {
-  if (!ADMIN_CHAT_ID || String(ADMIN_CHAT_ID).includes("PLACEHOLDER")) return;
+  if (!ADMIN_CHAT_ID || String(ADMIN_CHAT_ID).includes("PLACEHOLDER")) {
+    console.warn("notifyAdmin skipped: TELEGRAM_CHAT_ID empty");
+    return;
+  }
   try {
     await send(ADMIN_CHAT_ID, text);
   } catch (e) {
@@ -64,6 +80,18 @@ async function handleMessage(msg) {
   const text = (msg.text || "").trim();
   const name = [msg.from.first_name, msg.from.last_name].filter(Boolean).join(" ");
   const username = msg.from.username ? `@${msg.from.username}` : "—";
+  const fromLogin = (msg.from.username || "").toLowerCase();
+
+  if (
+    ADMIN_USERNAME &&
+    fromLogin === ADMIN_USERNAME &&
+    ADMIN_CHAT_ID &&
+    String(chatId) !== String(ADMIN_CHAT_ID)
+  ) {
+    console.warn(
+      `Админ @${ADMIN_USERNAME} пишет из chat_id=${chatId}, в .env сейчас TELEGRAM_CHAT_ID=${ADMIN_CHAT_ID}`
+    );
+  }
 
   if (text === "/start" || text === "/help") {
     sessions.delete(chatId);

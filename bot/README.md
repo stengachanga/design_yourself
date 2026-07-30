@@ -6,24 +6,41 @@
 2. Задайте имя и username (например `soberi_sebya_sam_bot`)
 3. Скопируйте **token**
 
-## 2. Узнайте свой chat_id
+## 2. Параметры получателя заявок
 
 1. Напишите боту любое сообщение
 2. Откройте в браузере:
    `https://api.telegram.org/bot<TOKEN>/getUpdates`
-3. Найдите `"chat":{"id": ...}` — это `TELEGRAM_CHAT_ID` (куда приходят заявки)
+3. Найдите `"chat":{"id": ...}` — это `TELEGRAM_CHAT_ID`
+4. Ваш публичный логин Telegram — это `TELEGRAM_ADMIN_USERNAME` (без `@`)
+
+В `bot/.env`:
+
+```env
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_ADMIN_USERNAME=Stenga4
+TELEGRAM_CHAT_ID=75264340
+```
+
+Бот пересылает заявки на `TELEGRAM_CHAT_ID`. Логин нужен для проверки и документации.
 
 ## 3. Сайт
 
-В `js/config.js` укажите только `telegramUsername` (без `@`).
-Токен на фронт не кладётся: форма открывает черновик в Telegram.
+В `js/config.js`:
+
+| Поле | Назначение |
+|------|------------|
+| `telegramUsername` | username бота |
+| `telegramAdminUsername` | логин, куда уходит черновик заявки с формы |
+
+Токен на фронт не кладётся.
 
 ## 4. Диалоговый бот (опционально)
 
 ```bash
 cd bot
 cp .env.example .env
-# заполните TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID
+# заполните TELEGRAM_BOT_TOKEN, TELEGRAM_ADMIN_USERNAME, TELEGRAM_CHAT_ID
 npm install
 npm start
 ```

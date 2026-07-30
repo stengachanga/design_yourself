@@ -33,10 +33,13 @@ python -m http.server 8080
 
 ## Telegram
 
-На сайте только публичный `telegramUsername` в `js/config.js` (без токена).
-Форма открывает черновик сообщения боту в Telegram.
+В `js/config.js`:
+- `telegramUsername` — бот
+- `telegramAdminUsername` — логин, куда уходит заявка с формы (без `@`)
 
-Диалоговый бот (token только в `bot/.env`): см. [`bot/README.md`](bot/README.md)
+Токен только в `bot/.env` вместе с `TELEGRAM_ADMIN_USERNAME` и `TELEGRAM_CHAT_ID`.
+
+Диалоговый бот: см. [`bot/README.md`](bot/README.md)
 
 ## Яндекс.Метрика
 

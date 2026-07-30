@@ -4,6 +4,8 @@ window.SITE_CONFIG = {
   contactEmail: "hello@design-yourself.example",
   contactPhone: "",
   formEndpoint: "",
-  /* Публичный username бота (без токена — токен только в bot/.env) */
+  /* Бот (кнопка «открыть бота»). Токен только в bot/.env — не сюда */
   telegramUsername: "soberi_sebya_sam_bot",
+  /* Логин Telegram, куда уходит заявка с формы (без @) */
+  telegramAdminUsername: "Stenga4",
 };

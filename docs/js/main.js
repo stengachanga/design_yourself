@@ -16,13 +16,29 @@
     return v.length > 0 && v.indexOf("PLACEHOLDER") === -1;
   }
 
-  function telegramUrl(prefill) {
-    if (!configured(config.telegramUsername)) return "";
-    var base = "https://t.me/" + config.telegramUsername.replace(/^@/, "");
+  function telegramHandle(preferred) {
+    var handle = preferred || config.telegramAdminUsername || config.telegramUsername;
+    if (!configured(handle)) return "";
+    return String(handle).replace(/^@/, "").trim();
+  }
+
+  function telegramUrl(prefill, preferred) {
+    var handle = telegramHandle(preferred);
+    if (!handle) return "";
+    var base = "https://t.me/" + handle;
     if (prefill) {
       return base + "?text=" + encodeURIComponent(prefill);
     }
     return base;
+  }
+
+  /** Заявки с формы — админу; кнопки бота — telegramUsername */
+  function bookingTelegramUrl(prefill) {
+    return telegramUrl(prefill, config.telegramAdminUsername || config.telegramUsername);
+  }
+
+  function botTelegramUrl(prefill) {
+    return telegramUrl(prefill, config.telegramUsername || config.telegramAdminUsername);
   }
 
   function setNavOpen(open) {
@@ -112,7 +128,7 @@
   }
 
   function renderTelegramButtons() {
-    var url = telegramUrl(
+    var url = bookingTelegramUrl(
       "Здравствуйте! Хочу записаться на консультацию «Собери Себя Сам»."
     );
     document.querySelectorAll("[data-telegram-cta]").forEach(function (el) {
@@ -131,11 +147,19 @@
     if (config.contactPhone) {
       parts.push('<a href="tel:' + config.contactPhone.replace(/\s/g, "") + '">Позвонить</a>');
     }
-    var tg = telegramUrl();
-    if (tg) {
+    var tgAdmin = bookingTelegramUrl();
+    if (tgAdmin) {
       parts.push(
         '<a href="' +
-          tg +
+          tgAdmin +
+          '" target="_blank" rel="noopener" data-goal="cta_telegram_click">Telegram</a>'
+      );
+    }
+    var tgBot = botTelegramUrl();
+    if (tgBot && telegramHandle(config.telegramUsername) !== telegramHandle(config.telegramAdminUsername)) {
+      parts.push(
+        '<a href="' +
+          tgBot +
           '" target="_blank" rel="noopener" data-goal="cta_telegram_click">Telegram-бот</a>'
       );
     }
@@ -226,7 +250,7 @@
       return "endpoint";
     }
 
-    var tg = telegramUrl(formatTelegramMessage(payload));
+    var tg = bookingTelegramUrl(formatTelegramMessage(payload));
     if (tg) {
       window.open(tg, "_blank", "noopener");
       return "telegram_link";

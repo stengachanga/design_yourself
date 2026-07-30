@@ -8,8 +8,8 @@
   };
 
   var scrollGoals = [
-    { id: "courses", goal: "scroll_courses" },
-    { id: "benefits", goal: "scroll_benefits" },
+    { id: "approach", goal: "scroll_approach" },
+    { id: "about", goal: "scroll_about" },
     { id: "contact", goal: "scroll_contact" },
   ];
 

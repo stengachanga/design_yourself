@@ -152,16 +152,10 @@
   }
 
   function sendViaMailto(payload) {
-    var courseNames = {
-      intro: "Введение в гештальт",
-      consulting: "Гештальт-консультирование",
-      retraining: "Профессиональная переподготовка",
-      supervision: "Индивидуальная супервизия",
-    };
     var body = [
       "Имя: " + payload.name,
       "Контакт: " + payload.contact + " (" + payload.contactType + ")",
-      "Курс: " + (courseNames[payload.course] || payload.course),
+      "Запрос: консультация",
       "Комментарий: " + (payload.message || "—"),
     ].join("\n");
     var email = config.contactEmail || "hello@design-yourself.example";
@@ -169,7 +163,7 @@
       "mailto:" +
       encodeURIComponent(email) +
       "?subject=" +
-      encodeURIComponent("Заявка на курс — Design Yourself") +
+      encodeURIComponent("Запись на консультацию — Собери Себя Сам") +
       "&body=" +
       encodeURIComponent(body);
   }

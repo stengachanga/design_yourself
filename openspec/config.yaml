@@ -1,20 +1,18 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Brand: «Собери Себя Сам» — миссия «Конструктор личности».
+  Offer: индивидуальное психологическое консультирование (не каталог курсов).
+  Methods: КПТ, гештальт, коучинг — только классические научно обоснованные методы.
+  Assets: Label.jpg (logo/palette), Psychologist.jpg (photo), Site description.txt (copy).
+  Color tokens from label: navy #203850, teal #488088, accent orange #D07840, bg #F4F4EF.
+  Stack: static HTML/CSS/JS, Yandex Metrika 110553308, GitHub Pages.
+  CTA: «Записаться на консультацию».
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Align copy with Site description.txt; no magic-pill claims
+  design:
+    - Derive palette from Label.jpg; keep brand first in hero
+  tasks:
+    - Prefer relative asset paths for GitHub Pages project site

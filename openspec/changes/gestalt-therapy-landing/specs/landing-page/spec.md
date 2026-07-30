@@ -1,78 +1,85 @@
 ## ADDED Requirements
 
-### Requirement: Single-page structure
-The landing page SHALL be a single HTML document with anchor-based navigation between sections. All primary content MUST be accessible without page reloads.
+### Requirement: Brand identity
+The landing page SHALL present the brand name «Собери Себя Сам» as a primary visual signal (logo from label asset and/or hero-level wordmark). The mission phrase «Конструктор личности» SHALL appear in the hero.
 
-#### Scenario: User navigates between sections
-- **WHEN** user clicks a navigation link in the header
-- **THEN** the page scrolls smoothly to the corresponding section without reloading
-
-### Requirement: Hero section
-The landing page SHALL display a hero section with a headline about gestalt therapy courses, a supporting subtitle, and a primary call-to-action button.
-
-#### Scenario: Hero CTA visible on load
+#### Scenario: Brand visible in first viewport
 - **WHEN** user opens the landing page
-- **THEN** the hero section is visible above the fold with headline, subtitle, and primary CTA button
+- **THEN** brand name or label logo and mission are visible without scrolling
 
-### Requirement: About gestalt approach section
-The landing page SHALL include a section explaining the gestalt therapy approach and its relevance to the offered courses.
+### Requirement: Hero with consultation CTA
+The landing page SHALL display a hero with supporting copy about structuring (not rebuilding) personality, a primary CTA «Записаться на консультацию», and the psychologist photo as the dominant visual.
 
-#### Scenario: About section content
-- **WHEN** user scrolls to the about section
-- **THEN** the section displays explanatory text about gestalt therapy in Russian
+#### Scenario: Hero CTA
+- **WHEN** user clicks the primary hero CTA
+- **THEN** the page scrolls to the contact/application section
 
-### Requirement: Courses program section
-The landing page SHALL list available psychological courses with title, brief description, and duration or format for each course.
+### Requirement: Methods section
+The landing page SHALL list working methods: КПТ, гештальт, коучинг, and state that only classical evidence-based psychological methods are used.
 
-#### Scenario: Course cards displayed
-- **WHEN** user views the courses section
-- **THEN** at least one course card is shown with title and description
+#### Scenario: Methods visible
+- **WHEN** user views the approach section
+- **THEN** КПТ, гештальт and коучинг are named explicitly
 
-### Requirement: Benefits section
-The landing page SHALL present key benefits of enrolling in the courses (e.g., practical skills, certification, community).
+### Requirement: Specialist credentials
+The landing page SHALL include education (Московский институт психологии, психолог-консультант) and prior experience (8 years state service, 8 years transnational corporation, 8 years research/teaching).
 
-#### Scenario: Benefits list visible
-- **WHEN** user scrolls to the benefits section
-- **THEN** a list or grid of at least three benefits is displayed
+#### Scenario: Credentials listed
+- **WHEN** user views the about-specialist section
+- **THEN** education and three experience blocks are displayed
 
-### Requirement: Social proof section
-The landing page SHALL include a trust section with testimonials or credentials (instructor info, reviews, or partner logos).
+### Requirement: Principles and boundaries
+The landing page SHALL communicate what is not offered (no «magic pill», no quantum leap, no reality transurfing) and what is used (classical scientifically supported methods).
 
-#### Scenario: Testimonial displayed
-- **WHEN** user views the social proof section
-- **THEN** at least one testimonial or credential block is shown
+#### Scenario: Boundaries shown
+- **WHEN** user views the principles section
+- **THEN** both «do not» and «do use» statements are visible
 
-### Requirement: FAQ section
-The landing page SHALL include a frequently asked questions section with expandable or visible question-answer pairs.
+### Requirement: Guarantees
+The landing page SHALL state guarantees: safe space, setting transparency, absolute confidentiality.
 
-#### Scenario: FAQ answers available
-- **WHEN** user views the FAQ section
-- **THEN** at least three question-answer pairs are displayed
+#### Scenario: Guarantees listed
+- **WHEN** user views the guarantees section
+- **THEN** all three guarantees are shown
 
-### Requirement: Contact or application CTA
-The landing page SHALL provide a contact form or prominent CTA (e.g., Telegram, email, or application button) for lead capture.
+### Requirement: Outcome statement
+The landing page SHALL describe the intended outcome as sequential organic transformation with sustainable improvement without emotional rollback to ineffective patterns.
 
-#### Scenario: Lead capture action
-- **WHEN** user clicks the main application CTA in the contact section
-- **THEN** a form is shown or user is directed to a contact channel
+#### Scenario: Outcome copy present
+- **WHEN** user reads the results section
+- **THEN** the outcome statement from site description is present in Russian
+
+### Requirement: Consultation lead capture
+The landing page SHALL provide a contact form or CTA to book a consultation, with consent for personal data processing.
+
+#### Scenario: Form submit path
+- **WHEN** user submits a valid consultation request
+- **THEN** a success or delivery path is shown and analytics goal may fire
+
+### Requirement: Label-based color scheme
+The visual theme SHALL use navy/teal neutrals and orange accent derived from `Label.jpg` (CSS variables), not the previous sage/cream psychology palette.
+
+#### Scenario: Accent CTA uses label orange
+- **WHEN** primary CTA buttons are inspected
+- **THEN** their background uses the label orange accent token
 
 ### Requirement: Responsive layout
-The landing page SHALL render correctly on viewports from 320px to 1920px width without horizontal scrolling.
+The landing page SHALL render correctly on viewports from 320px to 1920px without horizontal scrolling.
 
 #### Scenario: Mobile layout
 - **WHEN** user views the page on a 375px-wide viewport
-- **THEN** all sections stack vertically and remain readable without horizontal overflow
+- **THEN** sections stack vertically without horizontal overflow
 
 ### Requirement: SEO and social meta tags
-The landing page SHALL include `<title>`, `<meta name="description">`, and Open Graph tags (`og:title`, `og:description`, `og:image`) for search engines and social sharing.
+The landing page SHALL include title, description, canonical, and Open Graph tags reflecting consultation branding.
 
 #### Scenario: Meta tags present
 - **WHEN** the HTML document is inspected
-- **THEN** title, description, and Open Graph meta tags are present with non-empty values
+- **THEN** title, description, and Open Graph tags reference the brand and consultation offer
 
 ### Requirement: Russian language content
 All user-facing text on the landing page SHALL be in Russian.
 
 #### Scenario: Page language
-- **WHEN** user reads any section of the landing page
-- **THEN** the content is displayed in Russian
+- **WHEN** user reads any section
+- **THEN** content is displayed in Russian

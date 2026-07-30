@@ -35,43 +35,45 @@ jobs:
           cp -r css js assets _site/
 
           python3 <<'PY'
-          import os, pathlib, sys
+          import os, pathlib, re
           path = pathlib.Path("_site/js/config.js")
           text = path.read_text(encoding="utf-8")
 
-          username = os.environ.get("TELEGRAM_USERNAME", "").strip() or "soberi_sebya_sam_bot"
-          token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-          chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+          username = (os.environ.get("TELEGRAM_USERNAME") or "").strip() or "soberi_sebya_sam_bot"
+          token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
+          chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
 
           print(f"secret lengths: username={len(username)} token={len(token)} chat_id={len(chat_id)}")
-
-          if not token or not chat_id:
-              print("ERROR: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID must be set as repository Actions secrets.")
-              print("GitHub → Settings → Secrets and variables → Actions (not Environments, unless named github-pages).")
-              sys.exit(1)
 
           def esc(value: str) -> str:
               return value.replace("\\", "\\\\").replace('"', '\\"')
 
-          # Replace placeholders and also hardcode username field if needed
-          text = text.replace("TELEGRAM_BOT_TOKEN_PLACEHOLDER", esc(token))
-          text = text.replace("TELEGRAM_CHAT_ID_PLACEHOLDER", esc(chat_id))
-          text = text.replace("TELEGRAM_USERNAME_PLACEHOLDER", esc(username))
-          # Ensure username is present even if already hardcoded
-          import re
-          text = re.sub(
-              r'telegramUsername:\s*"[^"]*"',
-              f'telegramUsername: "{esc(username)}"',
-              text,
-              count=1,
-          )
-
-          if "PLACEHOLDER" in text:
-              print("ERROR: placeholders remain after injection")
-              sys.exit(1)
+          if token and chat_id:
+              text = text.replace("TELEGRAM_BOT_TOKEN_PLACEHOLDER", esc(token))
+              text = text.replace("TELEGRAM_CHAT_ID_PLACEHOLDER", esc(chat_id))
+              text = text.replace("TELEGRAM_USERNAME_PLACEHOLDER", esc(username))
+              text = re.sub(
+                  r'telegramUsername:\s*"[^"]*"',
+                  f'telegramUsername: "{esc(username)}"',
+                  text,
+                  count=1,
+              )
+              if "PLACEHOLDER" in text:
+                  raise SystemExit("placeholders remain after injection")
+              print("Telegram config injected OK (form → Telegram API)")
+          else:
+              # Keep username for deep-link buttons; form will open Telegram draft
+              text = re.sub(
+                  r'telegramUsername:\s*"[^"]*"',
+                  f'telegramUsername: "{esc(username)}"',
+                  text,
+                  count=1,
+              )
+              print("WARN: TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID empty — buttons work, form uses Telegram draft link")
+              print("Add Repository secrets (Settings → Secrets and variables → Actions):")
+              print("  TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TELEGRAM_USERNAME")
 
           path.write_text(text, encoding="utf-8")
-          print("Telegram config injected OK")
           PY
 
       - name: Configure Pages

@@ -4,5 +4,8 @@ window.SITE_CONFIG = {
   contactEmail: "hello@design-yourself.example",
   contactPhone: "",
   formEndpoint: "",
-  telegramUsername: "",
+  /* Telegram: заполните username бота; token/chatId — лучше через GitHub Secrets при деплое */
+  telegramUsername: "soberi_sebya_sam_bot",
+  telegramBotToken: "TELEGRAM_BOT_TOKEN_PLACEHOLDER",
+  telegramChatId: "TELEGRAM_CHAT_ID_PLACEHOLDER",
 };

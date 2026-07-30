@@ -10,6 +10,21 @@
   var stickyCta = document.getElementById("sticky-cta");
   var config = window.SITE_CONFIG || {};
 
+  function configured(value) {
+    if (!value) return false;
+    var v = String(value).trim();
+    return v.length > 0 && v.indexOf("PLACEHOLDER") === -1;
+  }
+
+  function telegramUrl(prefill) {
+    if (!configured(config.telegramUsername)) return "";
+    var base = "https://t.me/" + config.telegramUsername.replace(/^@/, "");
+    if (prefill) {
+      return base + "?text=" + encodeURIComponent(prefill);
+    }
+    return base;
+  }
+
   function setNavOpen(open) {
     if (!burger || !nav) return;
     burger.setAttribute("aria-expanded", String(open));
@@ -67,7 +82,7 @@
   });
 
   function applyCourseFromUrl() {
-    if (!courseSelect) return;
+    if (!courseSelect || courseSelect.tagName !== "SELECT") return;
     var params = new URLSearchParams(window.location.search);
     var course = params.get("course");
     if (course && courseSelect.querySelector('option[value="' + course + '"]')) {
@@ -96,27 +111,45 @@
     });
   }
 
+  function renderTelegramButtons() {
+    var url = telegramUrl(
+      "Здравствуйте! Хочу записаться на консультацию «Собери Себя Сам»."
+    );
+    document.querySelectorAll("[data-telegram-cta]").forEach(function (el) {
+      if (!url) {
+        el.hidden = true;
+        return;
+      }
+      el.hidden = false;
+      el.href = url;
+    });
+  }
+
   function renderContactAlternatives() {
     if (!contactAlternatives) return;
     var parts = [];
     if (config.contactPhone) {
       parts.push('<a href="tel:' + config.contactPhone.replace(/\s/g, "") + '">Позвонить</a>');
     }
-    if (config.telegramUsername) {
+    var tg = telegramUrl();
+    if (tg) {
       parts.push(
-        '<a href="https://t.me/' +
-          config.telegramUsername +
-          '" target="_blank" rel="noopener">Telegram</a>'
+        '<a href="' +
+          tg +
+          '" target="_blank" rel="noopener" data-goal="cta_telegram_click">Telegram-бот</a>'
       );
     }
-    if (config.contactEmail) {
+    if (configured(config.contactEmail) && !String(config.contactEmail).includes("example")) {
       parts.push('<a href="mailto:' + config.contactEmail + '">' + config.contactEmail + "</a>");
+    } else if (configured(config.contactEmail)) {
+      parts.push('<a href="mailto:' + config.contactEmail + '">Email</a>');
     }
     contactAlternatives.innerHTML = parts.length
       ? "Или свяжитесь напрямую: " + parts.join(" · ")
       : "";
   }
 
+  renderTelegramButtons();
   renderContactAlternatives();
 
   function isValidContact(value, isEmail) {
@@ -127,13 +160,11 @@
   }
 
   function buildLeadPayload(formData) {
-    var type = formData.get("contact_type");
-    var isEmail = type === "email";
     return {
       name: formData.get("name"),
       contact: formData.get("contact"),
-      contactType: type,
-      course: formData.get("course"),
+      contactType: formData.get("contact_type"),
+      course: formData.get("course") || "consultation",
       message: formData.get("message") || "",
       submittedAt: new Date().toISOString(),
       source: config.siteUrl || window.location.href,
@@ -149,6 +180,37 @@
     } catch (e) {
       /* ignore */
     }
+  }
+
+  function formatTelegramMessage(payload) {
+    return [
+      "🆕 Заявка с сайта «Собери Себя Сам»",
+      "",
+      "Имя: " + payload.name,
+      "Контакт: " + payload.contact + " (" + payload.contactType + ")",
+      "Запрос: консультация",
+      "Комментарий: " + (payload.message || "—"),
+      "Источник: " + payload.source,
+      "Время: " + payload.submittedAt,
+    ].join("\n");
+  }
+
+  async function sendViaTelegram(payload) {
+    var token = config.telegramBotToken;
+    var chatId = config.telegramChatId;
+    if (!configured(token) || !configured(chatId)) {
+      throw new Error("telegram_not_configured");
+    }
+    var response = await fetch("https://api.telegram.org/bot" + token + "/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: formatTelegramMessage(payload),
+      }),
+    });
+    var data = await response.json();
+    if (!data.ok) throw new Error(data.description || "telegram_send_failed");
   }
 
   function sendViaMailto(payload) {
@@ -172,6 +234,11 @@
     var payload = buildLeadPayload(formData);
     saveLeadLocally(payload);
 
+    if (configured(config.telegramBotToken) && configured(config.telegramChatId)) {
+      await sendViaTelegram(payload);
+      return "telegram";
+    }
+
     if (config.formEndpoint) {
       var response = await fetch(config.formEndpoint, {
         method: "POST",
@@ -179,10 +246,23 @@
         body: formData,
       });
       if (!response.ok) throw new Error("form_submit_failed");
-      return;
+      return "endpoint";
+    }
+
+    var tg = telegramUrl(
+      "Здравствуйте! Хочу записаться на консультацию.\nИмя: " +
+        payload.name +
+        "\nКонтакт: " +
+        payload.contact +
+        (payload.message ? "\nКомментарий: " + payload.message : "")
+    );
+    if (tg) {
+      window.open(tg, "_blank", "noopener");
+      return "telegram_link";
     }
 
     sendViaMailto(payload);
+    return "mailto";
   }
 
   if (form) {
@@ -211,7 +291,6 @@
       }
 
       if (!consentInput.checked) {
-        valid = false;
         formStatus.textContent = "Необходимо согласие на обработку персональных данных.";
         formStatus.classList.add("form__note--error");
         return;
@@ -227,19 +306,24 @@
       submitBtn.disabled = true;
 
       try {
-        await submitForm(new FormData(form));
+        var channel = await submitForm(new FormData(form));
         if (window.reachMetrikaGoal) {
           window.reachMetrikaGoal("form_submit");
         }
-        formStatus.textContent =
-          config.formEndpoint
-            ? "Заявка отправлена! Мы свяжемся с вами в течение 24 часов."
-            : "Заявка сохранена. Откроется почтовый клиент для отправки — или мы свяжемся по указанному контакту.";
+        var messages = {
+          telegram: "Заявка отправлена в Telegram! Свяжусь с вами в течение 24 часов.",
+          telegram_link: "Откроется Telegram с черновиком заявки — отправьте сообщение боту.",
+          endpoint: "Заявка отправлена! Свяжусь с вами в течение 24 часов.",
+          mailto: "Заявка сохранена. Откроется почтовый клиент для отправки.",
+        };
+        formStatus.textContent = messages[channel] || messages.endpoint;
         formStatus.classList.add("form__note--success");
         form.reset();
         updateContactField();
       } catch (err) {
-        formStatus.textContent = "Не удалось отправить заявку. Напишите на " + (config.contactEmail || "hello@design-yourself.example");
+        formStatus.textContent =
+          "Не удалось отправить заявку. Напишите в Telegram или на " +
+          (config.contactEmail || "email");
         formStatus.classList.add("form__note--error");
       } finally {
         submitBtn.disabled = false;

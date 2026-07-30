@@ -31,6 +31,17 @@ python -m http.server 8080
 
 Настройки в `js/config.js`: email, phone, telegram, Formspree endpoint.
 
+## Telegram-бот записи
+
+1. Создайте бота у [@BotFather](https://t.me/BotFather) (`/newbot`)
+2. Добавьте GitHub Secrets:
+   - `TELEGRAM_USERNAME` — username без `@`
+   - `TELEGRAM_BOT_TOKEN` — token бота
+   - `TELEGRAM_CHAT_ID` — ваш chat_id (куда падают заявки с формы)
+3. Push в `main` — кнопки Telegram появятся на сайте, форма будет слать заявки в чат
+
+Диалоговый бот (опционально): см. [`bot/README.md`](bot/README.md)
+
 ## Яндекс.Метрика
 
 Счётчик **110553308**. Цели: `cta_hero_click`, `cta_contact_click`, `form_submit`, `scroll_approach`, `scroll_about`, `scroll_contact`.

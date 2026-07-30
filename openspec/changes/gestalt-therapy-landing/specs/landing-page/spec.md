@@ -1,25 +1,25 @@
 ## ADDED Requirements
 
 ### Requirement: Brand identity
-The landing page SHALL present the brand name «Собери Себя Сам» as a primary visual signal (logo from label asset and/or hero-level wordmark). The mission phrase «Конструктор личности» SHALL appear in the hero.
+The landing page SHALL present «Конструктор Личности» as the primary header/logo wordmark. The mission phrase «Конструктор личности» MAY also appear in the hero. The label asset from `Label.jpg` SHALL remain visible as brand imagery.
 
 #### Scenario: Brand visible in first viewport
 - **WHEN** user opens the landing page
-- **THEN** brand name or label logo and mission are visible without scrolling
+- **THEN** header shows «Конструктор Личности» and hero shows mission/task copy without scrolling
 
 ### Requirement: Hero with consultation CTA
-The landing page SHALL display a hero with supporting copy about structuring (not rebuilding) personality, a primary CTA «Записаться на консультацию», and the psychologist photo as the dominant visual.
+The landing page SHALL display a hero with task copy «Задача: не пересобрать, а структурировать», a primary CTA that opens the Telegram bot for booking, and the psychologist photo as the dominant visual.
 
-#### Scenario: Hero CTA
+#### Scenario: Hero CTA opens bot
 - **WHEN** user clicks the primary hero CTA
-- **THEN** the page scrolls to the contact/application section
+- **THEN** the Telegram bot chat opens (new tab or Telegram deep link)
 
 ### Requirement: Methods section
-The landing page SHALL list working methods: КПТ, гештальт, коучинг, and state that only classical evidence-based psychological methods are used.
+The landing page SHALL include an approach section with a «Методы» heading listing КПТ, гештальт, коучинг, and state that only classical evidence-based psychological methods are used.
 
 #### Scenario: Methods visible
 - **WHEN** user views the approach section
-- **THEN** КПТ, гештальт and коучинг are named explicitly
+- **THEN** the heading «Методы» and КПТ, гештальт, коучинг are named explicitly
 
 ### Requirement: Specialist credentials
 The landing page SHALL include education (Московский институт психологии, психолог-консультант) and prior experience (8 years state service, 8 years transnational corporation, 8 years research/teaching).
@@ -28,12 +28,12 @@ The landing page SHALL include education (Московский институт 
 - **WHEN** user views the about-specialist section
 - **THEN** education and three experience blocks are displayed
 
-### Requirement: Principles and boundaries
-The landing page SHALL communicate what is not offered (no «magic pill», no quantum leap, no reality transurfing) and what is used (classical scientifically supported methods).
+### Requirement: Principles
+The landing page SHALL communicate that only classical scientifically supported methods are used. The page SHALL NOT require a «Не предлагаю» block.
 
-#### Scenario: Boundaries shown
+#### Scenario: Principles shown
 - **WHEN** user views the principles section
-- **THEN** both «do not» and «do use» statements are visible
+- **THEN** the «use only classical methods» statement is visible
 
 ### Requirement: Guarantees
 The landing page SHALL state guarantees: safe space, setting transparency, absolute confidentiality.
@@ -49,12 +49,12 @@ The landing page SHALL describe the intended outcome as sequential organic trans
 - **WHEN** user reads the results section
 - **THEN** the outcome statement from site description is present in Russian
 
-### Requirement: Consultation lead capture
-The landing page SHALL provide a contact form or CTA to book a consultation, with consent for personal data processing.
+### Requirement: Telegram bot as booking channel
+The landing page SHALL NOT include an on-page lead capture form with name/contact fields. The contact section SHALL provide a clear CTA that opens the practice Telegram bot (`telegramUsername` from config).
 
-#### Scenario: Form submit path
-- **WHEN** user submits a valid consultation request
-- **THEN** a success or delivery path is shown and analytics goal may fire
+#### Scenario: Contact CTA opens bot
+- **WHEN** user clicks the contact-section booking CTA
+- **THEN** the Telegram bot opens and no web form fields are required on the page
 
 ### Requirement: Label-based color scheme
 The visual theme SHALL use navy/teal neutrals and orange accent derived from `Label.jpg` (CSS variables), not the previous sage/cream psychology palette.

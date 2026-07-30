@@ -3,8 +3,6 @@ window.SITE_CONFIG = {
   brandName: "Конструктор Личности",
   contactEmail: "hello@design-yourself.example",
   contactPhone: "",
-  formEndpoint: "",
-  /* Token/chatId подставляются при деплое из GitHub Secrets — не коммитьте реальные значения */
-  telegramBotToken: "TELEGRAM_BOT_TOKEN_PLACEHOLDER",
-  telegramChatId: "75264340",
+  /* Публичный username бота (без @). Токен только в bot/.env */
+  telegramUsername: "soberi_sebya_sam_bot",
 };

@@ -33,12 +33,9 @@ python -m http.server 8080
 
 ## Telegram
 
-Запись только через форму на сайте. При деплое в `config.js` подставляются Secrets:
+Запись только через Telegram-бота (`telegramUsername` в `js/config.js`).
 
-- `TELEGRAM_BOT_TOKEN` — token бота
-- `TELEGRAM_CHAT_ID` — chat_id психолога (куда приходят заявки)
-
-Диалоговый бот (опционально): см. [`bot/README.md`](bot/README.md)
+Бот (token / chat_id / оплата в `bot/.env`): запись, вопрос, оплата сеанса — см. [`bot/README.md`](bot/README.md).
 
 ## Яндекс.Метрика
 

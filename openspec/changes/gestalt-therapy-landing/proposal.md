@@ -1,31 +1,27 @@
 ## Why
 
-Лендинг должен отражать реальный бренд и позиционирование практики: «Собери Себя Сам» / миссия «Конструктор личности». Текущая версия продаёт курсы гештальт-терапии с иллюстрациями и чужой палитрой — это расходится с контентом заказчика (индивидуальное консультирование, КПТ + гештальт + коучинг) и визуальной идентичностью label.
+Практика ведёт клиента в Telegram: веб-форма на лендинге лишняя. Нужен бот с записью, вопросами и оплатой сеанса и пересылкой психологу; спецификация должна это фиксировать.
 
 ## What Changes
 
-- Пересобрать контент лендинга по `Site description.txt`: миссия, образование, методы, опыт, принципы, гарантии, CTA на консультацию
-- Заменить визуальную идентичность: logo/label `Label.jpg`, фото психолога `Psychologist.jpg`
-- Обновить цветовую схему по label: navy/teal + оранжевый акцент CTA на светлом нейтральном фоне
-- Убрать маркетинговые блоки курсов/цен как основной оффер (фокус — запись на консультацию)
-- Обновить SEO meta и Open Graph под новый бренд и оффер
-- Синхронизировать OpenSpec artifacts (proposal, design, specs) с новой позицией
+- Убрать поля формы с лендинга; CTA → Telegram-бот
+- Расширить бота: запись, задать вопрос, оплатить сеанс; форвард в `TELEGRAM_CHAT_ID`
+- Обновить OpenSpec (`landing-page`, новая capability `telegram-bot`)
+- Убрать bot token с фронта / из Pages inject
 
 ## Capabilities
 
 ### New Capabilities
 
-<!-- нет новых capability-папок — меняем существующие -->
+- `telegram-bot`: меню и диалоги записи/вопроса/оплаты; пересылка психологу; конфиг только server-side
 
 ### Modified Capabilities
 
-- `landing-page`: Контент и структура секций под бренд «Собери Себя Сам» и индивидуальное консультирование; ассеты label + фото психолога; палитра из label
-- `analytics-integration`: Цели CTA переименовать/сохранить под «запись на консультацию» (без изменения счётчика)
-- `github-pages-deployment`: Без изменения требований; обновить ассеты в publish output
+- `landing-page`: шапка «Конструктор Личности»; запись через бота без веб-формы; блок «Методы»; без «Не предлагаю»
+- `analytics-integration`: цели клика CTA на открытие бота
+- `github-pages-deployment`: статика без инъекции Telegram token
 
 ## Impact
 
-- `index.html`, `css/styles.css`, `assets/images/`, `docs/`
-- OpenSpec: `proposal.md`, `design.md`, `specs/landing-page/spec.md`
-- Бренд в UI: Design Yourself → **Собери Себя Сам**
-- Primary CTA: «Записаться на консультацию»
+- `index.html`, `js/config.js`, `js/main.js`, `bot/`, `docs/`, `.github/workflows/deploy.yml`
+- OpenSpec under `openspec/changes/gestalt-therapy-landing/`

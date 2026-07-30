@@ -79,7 +79,7 @@
           <h1>Задача: не пересобрать, а структурировать</h1>
           <p class="hero__subtitle">Психологическое консультирование: КПТ, гештальт, коучинг. Классические методы, прозрачный сеттинг, конфиденциальность.</p>
           <div class="hero__actions">
-            <a href="#contact" class="btn btn--primary" data-goal="cta_hero_click">Записаться на консультацию</a>
+            <a href="#" class="btn btn--primary" data-telegram-cta data-goal="cta_hero_click" target="_blank" rel="noopener">Записаться на консультацию</a>
             <a href="#approach" class="btn btn--ghost">О подходе</a>
           </div>
         </div>
@@ -159,45 +159,17 @@
     </section>
 
     <section class="section section--contact" id="contact">
-      <div class="container contact__grid">
-        <div class="contact__info">
-          <h2>Записаться на консультацию</h2>
-          <p>Оставьте заявку в форме — она придёт психологу в Telegram.</p>
-          <p id="contact-alternatives" class="contact__alt"></p>
-        </div>
-        <form class="form" id="application-form" novalidate>
-          <label>
-            Имя
-            <input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться">
-          </label>
-          <fieldset class="contact-toggle">
-            <legend>Способ связи</legend>
-            <label class="contact-toggle__option">
-              <input type="radio" name="contact_type" value="phone" checked>
-              Телефон
-            </label>
-            <label class="contact-toggle__option">
-              <input type="radio" name="contact_type" value="email">
-              Email
-            </label>
-          </fieldset>
-          <label id="contact-field-label">
-            <span id="contact-field-text">Телефон</span>
-            <input type="tel" name="contact" id="contact-input" required autocomplete="tel" inputmode="tel" placeholder="+7 (999) 123-45-67">
-          </label>
-          <label>
-            Комментарий
-            <textarea name="message" rows="3" placeholder="Коротко о запросе (необязательно)"></textarea>
-          </label>
-          <input type="hidden" name="course" id="course-select" value="consultation">
-          <label class="checkbox-label">
-            <input type="checkbox" name="consent" required>
-            <span>Согласен на <a href="./privacy.html" target="_blank">обработку персональных данных</a></span>
-          </label>
-          <button type="submit" class="btn btn--primary btn--block" data-goal="cta_contact_click">Записаться на консультацию</button>
-          <p class="form__hint">Отвечу в рабочие дни в течение 24 часов.</p>
-          <p class="form__note" id="form-status" role="status" aria-live="polite"></p>
-        </form>
+      <div class="container contact__bot">
+        <h2>Записаться на консультацию</h2>
+        <p class="lead">Запись, вопросы и оплата сеанса — в Telegram-боте. Сообщения приходят психологу.</p>
+        <ul class="bot-features">
+          <li>Записаться на консультацию</li>
+          <li>Задать вопрос</li>
+          <li>Оплатить сеанс</li>
+        </ul>
+        <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-goal="cta_contact_click" target="_blank" rel="noopener">Перейти в Telegram-бота</a>
+        <p class="form__hint">Отвечу в рабочие дни в течение 24 часов.</p>
+        <p class="contact__privacy">Продолжая в Telegram, вы соглашаетесь с <a href="./privacy.html">политикой конфиденциальности</a>.</p>
       </div>
     </section>
   </main>
@@ -214,7 +186,7 @@
     </div>
   </footer>
 
-  <a href="#contact" class="sticky-cta" id="sticky-cta" data-goal="cta_hero_click" aria-label="Записаться на консультацию">Записаться</a>
+  <a href="#" class="sticky-cta" id="sticky-cta" data-telegram-cta data-goal="cta_hero_click" target="_blank" rel="noopener" aria-label="Записаться в Telegram">Записаться</a>
 
   <script src="./js/config.js"></script>
   <script src="./js/metrika.js"></script>

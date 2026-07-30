@@ -21,39 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare site with Telegram secrets
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Prepare site
         run: |
           mkdir -p _site
           cp index.html privacy.html offer.html robots.txt sitemap.xml _site/
           cp -r css js assets _site/
-
-          python3 <<'PY'
-          import os, pathlib, re
-          path = pathlib.Path("_site/js/config.js")
-          text = path.read_text(encoding="utf-8")
-
-          token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
-          chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip() or "75264340"
-
-          print(f"secret lengths: token={len(token)} chat_id={len(chat_id)}")
-
-          def esc(value: str) -> str:
-              return value.replace("\\", "\\\\").replace('"', '\\"')
-
-          text = re.sub(r'telegramChatId:\s*"[^"]*"', f'telegramChatId: "{esc(chat_id)}"', text, count=1)
-
-          if token:
-              text = text.replace("TELEGRAM_BOT_TOKEN_PLACEHOLDER", esc(token))
-              text = re.sub(r'telegramBotToken:\s*"[^"]*"', f'telegramBotToken: "{esc(token)}"', text, count=1)
-              print("Telegram token injected OK")
-          else:
-              print("WARN: TELEGRAM_BOT_TOKEN empty — form cannot send to Telegram API")
-
-          path.write_text(text, encoding="utf-8")
-          PY
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

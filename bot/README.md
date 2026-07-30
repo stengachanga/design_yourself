@@ -1,46 +1,40 @@
-# Telegram-бот записи на консультацию
+# Telegram-бот «Конструктор Личности»
 
-## 1. Создайте бота
+## Возможности
 
-1. Откройте [@BotFather](https://t.me/BotFather) → `/newbot`
-2. Задайте имя и username (например `soberi_sebya_sam_bot`)
-3. Скопируйте **token**
+- 📅 Записаться на консультацию
+- ❓ Задать вопрос
+- 💳 Оплатить сеанс
+- ℹ️ О подходе
 
-## 2. Параметры получателя заявок
+Все заявки и свободные сообщения клиентов пересылаются психологу в `TELEGRAM_CHAT_ID`.
 
-1. Напишите боту любое сообщение
-2. Откройте в браузере:
+## Настройка
+
+1. [@BotFather](https://t.me/BotFather) → `/newbot` → token  
+2. Напишите боту `/start`, затем узнайте chat_id:  
    `https://api.telegram.org/bot<TOKEN>/getUpdates`
-3. Найдите `"chat":{"id": ...}` — это `TELEGRAM_CHAT_ID`
-4. Ваш публичный логин Telegram — это `TELEGRAM_ADMIN_USERNAME` (без `@`)
-
-В `bot/.env`:
+3. `cp .env.example .env` и заполните:
 
 ```env
 TELEGRAM_BOT_TOKEN=...
 TELEGRAM_ADMIN_USERNAME=Stenga4
 TELEGRAM_CHAT_ID=75264340
+TELEGRAM_PAYMENT_URL=https://...
+TELEGRAM_PAYMENT_DETAILS=карта / СБП ...
 ```
 
-Бот пересылает заявки на `TELEGRAM_CHAT_ID`. Логин нужен для проверки и документации.
-
-## 3. Сайт
-
-Запись только через форму. Token и chat_id подставляются при деплое из GitHub Secrets (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) — не коммитьте их в репозиторий.
-
-## 4. Диалоговый бот (опционально)
+4. Запуск:
 
 ```bash
 cd bot
-cp .env.example .env
-# заполните TELEGRAM_BOT_TOKEN, TELEGRAM_ADMIN_USERNAME, TELEGRAM_CHAT_ID
 npm install
 npm start
 ```
 
-Команды бота:
-- `/start` — приветствие
-- «Записаться на консультацию» / `/book` — диалог: имя → контакт → комментарий
-- «О подходе» / `/about`
+Нужен постоянный хостинг (Railway, Render, Fly.io, VPS).
 
-Заявки из диалога уходят админу в `TELEGRAM_CHAT_ID`.
+## Сайт
+
+На лендинге только публичный `telegramUsername` в `js/config.js`.  
+Токен на фронт не кладётся — запись через кнопку «Перейти в Telegram-бота».

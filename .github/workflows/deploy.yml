@@ -15,10 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,49 +38,38 @@ jobs:
 
           username = (os.environ.get("TELEGRAM_USERNAME") or "").strip() or "soberi_sebya_sam_bot"
           token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
-          chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
+          chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip() or "75264340"
 
           print(f"secret lengths: username={len(username)} token={len(token)} chat_id={len(chat_id)}")
 
           def esc(value: str) -> str:
               return value.replace("\\", "\\\\").replace('"', '\\"')
 
-          if token and chat_id:
+          text = re.sub(r'telegramUsername:\s*"[^"]*"', f'telegramUsername: "{esc(username)}"', text, count=1)
+          text = re.sub(r'telegramChatId:\s*"[^"]*"', f'telegramChatId: "{esc(chat_id)}"', text, count=1)
+
+          if token:
               text = text.replace("TELEGRAM_BOT_TOKEN_PLACEHOLDER", esc(token))
-              text = text.replace("TELEGRAM_CHAT_ID_PLACEHOLDER", esc(chat_id))
-              text = text.replace("TELEGRAM_USERNAME_PLACEHOLDER", esc(username))
-              text = re.sub(
-                  r'telegramUsername:\s*"[^"]*"',
-                  f'telegramUsername: "{esc(username)}"',
-                  text,
-                  count=1,
-              )
-              if "PLACEHOLDER" in text:
-                  raise SystemExit("placeholders remain after injection")
-              print("Telegram config injected OK (form → Telegram API)")
+              text = re.sub(r'telegramBotToken:\s*"[^"]*"', f'telegramBotToken: "{esc(token)}"', text, count=1)
+              print("Telegram token injected OK")
           else:
-              # Keep username for deep-link buttons; form will open Telegram draft
-              text = re.sub(
-                  r'telegramUsername:\s*"[^"]*"',
-                  f'telegramUsername: "{esc(username)}"',
-                  text,
-                  count=1,
-              )
-              print("WARN: TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID empty — buttons work, form uses Telegram draft link")
-              print("Add Repository secrets (Settings → Secrets and variables → Actions):")
-              print("  TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TELEGRAM_USERNAME")
+              print("WARN: TELEGRAM_BOT_TOKEN empty — form will open Telegram draft instead of API")
 
           path.write_text(text, encoding="utf-8")
           PY
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

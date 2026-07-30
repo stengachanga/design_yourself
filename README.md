@@ -33,13 +33,12 @@ python -m http.server 8080
 
 ## Telegram
 
-В `js/config.js`:
-- `telegramUsername` — бот
-- `telegramAdminUsername` — логин, куда уходит заявка с формы (без `@`)
+Запись только через форму на сайте. При деплое в `config.js` подставляются Secrets:
 
-Токен только в `bot/.env` вместе с `TELEGRAM_ADMIN_USERNAME` и `TELEGRAM_CHAT_ID`.
+- `TELEGRAM_BOT_TOKEN` — token бота
+- `TELEGRAM_CHAT_ID` — chat_id психолога (куда приходят заявки)
 
-Диалоговый бот: см. [`bot/README.md`](bot/README.md)
+Диалоговый бот (опционально): см. [`bot/README.md`](bot/README.md)
 
 ## Яндекс.Метрика
 

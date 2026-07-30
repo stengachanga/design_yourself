@@ -26,14 +26,7 @@ TELEGRAM_CHAT_ID=75264340
 
 ## 3. Сайт
 
-В `js/config.js`:
-
-| Поле | Назначение |
-|------|------------|
-| `telegramUsername` | username бота |
-| `telegramAdminUsername` | логин, куда уходит черновик заявки с формы |
-
-Токен на фронт не кладётся.
+Запись только через форму. Token и chat_id подставляются при деплое из GitHub Secrets (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) — не коммитьте их в репозиторий.
 
 ## 4. Диалоговый бот (опционально)
 

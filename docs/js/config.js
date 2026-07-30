@@ -1,11 +1,10 @@
 window.SITE_CONFIG = {
   siteUrl: "https://stengachanga.github.io/design_yourself",
-  brandName: "Собери Себя Сам",
+  brandName: "Конструктор Личности",
   contactEmail: "hello@design-yourself.example",
   contactPhone: "",
   formEndpoint: "",
-  /* Бот (кнопка «открыть бота»). Токен только в bot/.env — не сюда */
-  telegramUsername: "soberi_sebya_sam_bot",
-  /* Логин Telegram, куда уходит заявка с формы (без @) */
-  telegramAdminUsername: "Stenga4",
+  /* Token/chatId подставляются при деплое из GitHub Secrets — не коммитьте реальные значения */
+  telegramBotToken: "TELEGRAM_BOT_TOKEN_PLACEHOLDER",
+  telegramChatId: "75264340",
 };

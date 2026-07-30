@@ -102,11 +102,11 @@ function paymentInstructions() {
   }
   if (!PAYMENT_URL && !PAYMENT_DETAILS) {
     parts.push(
-      "Реквизиты уточнит психолог после вашего сообщения.\n" +
-        "Напишите коротко: что оплачиваете и удобный способ связи."
+      "Реквизиты уточнит психолог после вашего сообщения\n" +
+        "Напишите коротко: что оплачиваете и удобный способ связи"
     );
   } else {
-    parts.push("После оплаты напишите сюда комментарий (ФИО плательщика / дата сеанса) — я передам психологу.");
+    parts.push("После оплаты напишите сюда комментарий (ФИО плательщика / дата сеанса) — я передам психологу");
   }
   return parts.join("\n");
 }
@@ -122,7 +122,7 @@ async function handleMessage(msg) {
   if (isAdminChat(chatId)) {
     await send(
       chatId,
-      "Это чат психолога для входящих заявок. Клиенты пишут боту в личку — сюда приходят пересылки."
+      "Это чат психолога для входящих заявок Клиенты пишут боту в личку — сюда приходят пересылки"
     );
     return;
   }
@@ -143,7 +143,7 @@ async function handleMessage(msg) {
     await send(
       chatId,
       `<b>Конструктор Личности</b>\n\n` +
-        `Психологическое консультирование: КПТ, гештальт, коучинг.\n\n` +
+        `Психологическое консультирование: КПТ, гештальт, коучинг\n\n` +
         `Выберите действие:`,
       START_KEYBOARD
     );
@@ -152,13 +152,13 @@ async function handleMessage(msg) {
 
   if (text === BTN_BOOK || text === "/book") {
     sessions.set(chatId, { flow: "book", step: "name" });
-    await send(chatId, "Как к вам обращаться? Напишите имя.", CANCEL_KEYBOARD);
+    await send(chatId, "Как к вам обращаться? Напишите имя", CANCEL_KEYBOARD);
     return;
   }
 
   if (text === BTN_ASK || text === "/ask") {
     sessions.set(chatId, { flow: "ask", step: "question" });
-    await send(chatId, "Напишите ваш вопрос одним сообщением.", CANCEL_KEYBOARD);
+    await send(chatId, "Напишите ваш вопрос одним сообщением", CANCEL_KEYBOARD);
     return;
   }
 
@@ -178,7 +178,7 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Сообщение передано психологу. Или выберите действие в меню.",
+      "Сообщение передано психологу — или выберите действие в меню",
       START_KEYBOARD
     );
     return;
@@ -188,7 +188,7 @@ async function handleMessage(msg) {
     if (session.step === "name") {
       session.name = text.slice(0, 80);
       session.step = "contact";
-      await send(chatId, "Оставьте телефон или email для связи.", CANCEL_KEYBOARD);
+      await send(chatId, "Оставьте телефон или email для связи", CANCEL_KEYBOARD);
       return;
     }
     if (session.step === "contact") {
@@ -196,7 +196,7 @@ async function handleMessage(msg) {
       session.step = "comment";
       await send(
         chatId,
-        "Коротко опишите запрос (или напишите «—», если пока без деталей).",
+        "Коротко опишите запрос (или напишите «—», если пока без деталей)",
         CANCEL_KEYBOARD
       );
       return;
@@ -214,7 +214,7 @@ async function handleMessage(msg) {
       );
       await send(
         chatId,
-        `Спасибо, ${session.name}! Заявка принята.\nСвяжусь с вами в течение 24 часов в рабочие дни.`,
+        `Спасибо, ${session.name}! Заявка принята\nСвяжусь с вами в течение 24 часов`,
         START_KEYBOARD
       );
       return;
@@ -231,7 +231,7 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Вопрос передан психологу. Ответ придёт в рабочие дни.",
+      "Вопрос передан психологу — ответ придёт в течение 24 часов",
       START_KEYBOARD
     );
     return;
@@ -247,14 +247,14 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Спасибо! Сообщение об оплате передано психологу. Он подтвердит поступление.",
+      "Спасибо! Сообщение об оплате передано психологу — он подтвердит поступление",
       START_KEYBOARD
     );
     return;
   }
 
   sessions.delete(chatId);
-  await send(chatId, "Выберите действие в меню.", START_KEYBOARD);
+  await send(chatId, "Выберите действие в меню", START_KEYBOARD);
 }
 
 async function poll() {

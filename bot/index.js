@@ -32,12 +32,11 @@ const sessions = new Map();
 const BTN_BOOK = "📅 Записаться на консультацию";
 const BTN_ASK = "❓ Задать вопрос";
 const BTN_PAY = "💳 Оплатить сеанс";
-const BTN_ABOUT = "ℹ️ О подходе";
 const BTN_CANCEL = "↩️ В меню";
 
 const START_KEYBOARD = {
   reply_markup: {
-    keyboard: [[{ text: BTN_BOOK }], [{ text: BTN_ASK }], [{ text: BTN_PAY }], [{ text: BTN_ABOUT }]],
+    keyboard: [[{ text: BTN_BOOK }], [{ text: BTN_ASK }], [{ text: BTN_PAY }]],
     resize_keyboard: true,
   },
 };
@@ -146,17 +145,6 @@ async function handleMessage(msg) {
       `<b>Конструктор Личности</b>\n\n` +
         `Психологическое консультирование: КПТ, гештальт, коучинг.\n\n` +
         `Выберите действие:`,
-      START_KEYBOARD
-    );
-    return;
-  }
-
-  if (text === BTN_ABOUT || text === "/about") {
-    await send(
-      chatId,
-      `<b>Задача:</b> не пересобрать, а структурировать.\n\n` +
-        `<b>Методы:</b> КПТ, гештальт, коучинг — классические научно обоснованные подходы.\n\n` +
-        `Гарантии: безопасное пространство, прозрачный сеттинг, конфиденциальность.`,
       START_KEYBOARD
     );
     return;
@@ -296,7 +284,6 @@ module.exports = {
   BTN_BOOK,
   BTN_ASK,
   BTN_PAY,
-  BTN_ABOUT,
   START_KEYBOARD,
 };
 

@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare site
+      - name: Prepare site with Telegram secrets
         env:
           TELEGRAM_USERNAME: ${{ secrets.TELEGRAM_USERNAME }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -33,20 +33,49 @@ jobs:
           mkdir -p _site
           cp index.html privacy.html offer.html robots.txt sitemap.xml _site/
           cp -r css js assets _site/
+
           python3 <<'PY'
-          import os, pathlib
+          import os, pathlib, sys
           path = pathlib.Path("_site/js/config.js")
           text = path.read_text(encoding="utf-8")
-          replacements = {
-              "TELEGRAM_USERNAME_PLACEHOLDER": os.environ.get("TELEGRAM_USERNAME", "").strip(),
-              "TELEGRAM_BOT_TOKEN_PLACEHOLDER": os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(),
-              "TELEGRAM_CHAT_ID_PLACEHOLDER": os.environ.get("TELEGRAM_CHAT_ID", "").strip(),
-          }
-          for key, value in replacements.items():
-              text = text.replace(key, value.replace("\\", "\\\\").replace('"', '\\"'))
+
+          username = os.environ.get("TELEGRAM_USERNAME", "").strip() or "soberi_sebya_sam_bot"
+          token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+
+          print(f"secret lengths: username={len(username)} token={len(token)} chat_id={len(chat_id)}")
+
+          if not token or not chat_id:
+              print("ERROR: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID must be set as repository Actions secrets.")
+              print("GitHub → Settings → Secrets and variables → Actions (not Environments, unless named github-pages).")
+              sys.exit(1)
+
+          def esc(value: str) -> str:
+              return value.replace("\\", "\\\\").replace('"', '\\"')
+
+          # Replace placeholders and also hardcode username field if needed
+          text = text.replace("TELEGRAM_BOT_TOKEN_PLACEHOLDER", esc(token))
+          text = text.replace("TELEGRAM_CHAT_ID_PLACEHOLDER", esc(chat_id))
+          text = text.replace("TELEGRAM_USERNAME_PLACEHOLDER", esc(username))
+          # Ensure username is present even if already hardcoded
+          import re
+          text = re.sub(
+              r'telegramUsername:\s*"[^"]*"',
+              f'telegramUsername: "{esc(username)}"',
+              text,
+              count=1,
+          )
+
+          if "PLACEHOLDER" in text:
+              print("ERROR: placeholders remain after injection")
+              sys.exit(1)
+
           path.write_text(text, encoding="utf-8")
-          print("Telegram config injected:", bool(replacements["TELEGRAM_USERNAME_PLACEHOLDER"]))
+          print("Telegram config injected OK")
           PY
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

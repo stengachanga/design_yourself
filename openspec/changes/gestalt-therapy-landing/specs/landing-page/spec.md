@@ -50,11 +50,12 @@ The landing page SHALL describe the intended outcome as sequential organic trans
 - **THEN** the outcome statement from site description is present in Russian
 
 ### Requirement: Telegram bot as booking channel
-The landing page SHALL NOT include an on-page lead capture form with name/contact fields. The contact section SHALL provide a clear CTA that opens the practice Telegram bot (`telegramUsername` from config).
+The landing page SHALL NOT include an on-page lead capture form with name/contact fields. The contact section SHALL provide a clear CTA that opens the practice Telegram bot (`telegramUsername` from config). The landing page SHALL NOT list bot menu actions (book / ask / pay) as on-page feature items — those actions exist only inside the bot.
 
 #### Scenario: Contact CTA opens bot
 - **WHEN** user clicks the contact-section booking CTA
 - **THEN** the Telegram bot opens and no web form fields are required on the page
+- **AND** book/ask/pay actions are not presented as a feature list on the website
 
 ### Requirement: Label-based color scheme
 The visual theme SHALL use navy/teal neutrals and orange accent derived from `Label.jpg` (CSS variables), not the previous sage/cream psychology palette.

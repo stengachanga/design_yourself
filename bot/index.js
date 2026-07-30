@@ -290,4 +290,16 @@ async function poll() {
   }
 }
 
-poll();
+module.exports = {
+  handleMessage,
+  notifyAdmin,
+  BTN_BOOK,
+  BTN_ASK,
+  BTN_PAY,
+  BTN_ABOUT,
+  START_KEYBOARD,
+};
+
+if (require.main === module) {
+  poll();
+}

@@ -195,24 +195,6 @@
     ].join("\n");
   }
 
-  async function sendViaTelegram(payload) {
-    var token = config.telegramBotToken;
-    var chatId = config.telegramChatId;
-    if (!configured(token) || !configured(chatId)) {
-      throw new Error("telegram_not_configured");
-    }
-    var response = await fetch("https://api.telegram.org/bot" + token + "/sendMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: formatTelegramMessage(payload),
-      }),
-    });
-    var data = await response.json();
-    if (!data.ok) throw new Error(data.description || "telegram_send_failed");
-  }
-
   function sendViaMailto(payload) {
     var body = [
       "Имя: " + payload.name,
@@ -234,11 +216,6 @@
     var payload = buildLeadPayload(formData);
     saveLeadLocally(payload);
 
-    if (configured(config.telegramBotToken) && configured(config.telegramChatId)) {
-      await sendViaTelegram(payload);
-      return "telegram";
-    }
-
     if (config.formEndpoint) {
       var response = await fetch(config.formEndpoint, {
         method: "POST",
@@ -249,13 +226,7 @@
       return "endpoint";
     }
 
-    var tg = telegramUrl(
-      "Здравствуйте! Хочу записаться на консультацию.\nИмя: " +
-        payload.name +
-        "\nКонтакт: " +
-        payload.contact +
-        (payload.message ? "\nКомментарий: " + payload.message : "")
-    );
+    var tg = telegramUrl(formatTelegramMessage(payload));
     if (tg) {
       window.open(tg, "_blank", "noopener");
       return "telegram_link";
@@ -311,7 +282,6 @@
           window.reachMetrikaGoal("form_submit");
         }
         var messages = {
-          telegram: "Заявка отправлена в Telegram! Свяжусь с вами в течение 24 часов.",
           telegram_link: "Откроется Telegram с черновиком заявки — отправьте сообщение боту.",
           endpoint: "Заявка отправлена! Свяжусь с вами в течение 24 часов.",
           mailto: "Заявка сохранена. Откроется почтовый клиент для отправки.",

@@ -13,19 +13,10 @@
    `https://api.telegram.org/bot<TOKEN>/getUpdates`
 3. Найдите `"chat":{"id": ...}` — это `TELEGRAM_CHAT_ID` (куда приходят заявки)
 
-## 3. Сайт (кнопка + форма → Telegram)
+## 3. Сайт
 
-В GitHub → **Settings → Secrets and variables → Actions** добавьте:
-
-| Secret | Значение |
-|--------|----------|
-| `TELEGRAM_USERNAME` | username бота без `@` |
-| `TELEGRAM_BOT_TOKEN` | token от BotFather |
-| `TELEGRAM_CHAT_ID` | ваш chat_id |
-
-При push в `main` workflow подставит их в `js/config.js`.
-
-Локально можно временно прописать значения в `js/config.js` (не коммитьте token в публичный репозиторий без необходимости).
+В `js/config.js` укажите только `telegramUsername` (без `@`).
+Токен на фронт не кладётся: форма открывает черновик в Telegram.
 
 ## 4. Диалоговый бот (опционально)
 

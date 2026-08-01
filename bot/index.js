@@ -40,11 +40,11 @@ const sessions = new Map();
 const rateBucket = new Map();
 const recentClients = new Map();
 
-const BTN_BOOK = "📅 Записаться";
-const BTN_ASK = "❓ Задать вопрос";
-const BTN_FIRST = "🌱 Что будет на встрече";
-const BTN_PAY = "💳 Оплатить сеанс";
-const BTN_CANCEL = "↩️ В меню";
+const BTN_BOOK = "Записаться";
+const BTN_ASK = "Задать вопрос";
+const BTN_FIRST = "Что будет на встрече";
+const BTN_PAY = "Оплатить сеанс";
+const BTN_CANCEL = "В меню";
 
 const START_KEYBOARD = {
   reply_markup: {
@@ -180,14 +180,15 @@ function paymentInstructions() {
 function welcomeText() {
   return (
     `<b>Конструктор Личности</b>\n\n` +
-    `Здесь можно мягко начать: задать вопрос или записаться на консультацию\n\n` +
+    `Различаем, что в вашей власти, и действуем.\n` +
+    `Без волшебных обещаний — с ясными рамками.\n\n` +
     `Онлайн · ${escapeHtml(SESSION_DURATION)} · ${escapeHtml(SESSION_PRICE)}\n` +
-    `Ответ психолога — обычно в течение 24 часов\n\n` +
+    `Ответ — обычно в течение 24 часов\n\n` +
     `Не медицина и не экстренная помощь\n` +
     `Угроза жизни: 112 · доверие: 8-800-2000-122\n\n` +
-    `Сайт с оффером: ${escapeHtml(SITE_URL)}\n` +
+    `Сайт: ${escapeHtml(SITE_URL)}\n` +
     `Политика: ${escapeHtml(PRIVACY_URL)}\n\n` +
-    `Выберите действие — или просто напишите, что сейчас важно:`
+    `Выберите действие — или напишите, что важно сейчас:`
   );
 }
 
@@ -196,9 +197,9 @@ function firstMeetingText() {
     `<b>Первая встреча</b>\n\n` +
     `• 50 минут онлайн\n` +
     `• проясняем запрос и рамки\n` +
-    `• без «волшебной таблетки» и давления\n` +
-    `• дальше решаете, продолжать ли\n\n` +
-    `Готовы — жмите «Записаться». Сомневаетесь — «Задать вопрос»`
+    `• без иллюзий и давления\n` +
+    `• дальше решаете вы — продолжать или нет\n\n` +
+    `Готовы — «Записаться». Сомневаетесь — «Задать вопрос»`
   );
 }
 
@@ -206,7 +207,7 @@ async function startBook(chatId) {
   sessions.set(chatId, { flow: "book", step: "name" });
   await send(
     chatId,
-    `Отлично — запишем вас на консультацию\n\nКак к вам обращаться?\n(продолжая, вы соглашаетесь с политикой: ${escapeHtml(PRIVACY_URL)})`,
+    `Запись на консультацию.\n\nКак к вам обращаться?\n(продолжая, вы соглашаетесь с политикой: ${escapeHtml(PRIVACY_URL)})`,
     CANCEL_KEYBOARD
   );
 }
@@ -215,7 +216,7 @@ async function startAsk(chatId) {
   sessions.set(chatId, { flow: "ask", step: "question" });
   await send(
     chatId,
-    "Напишите вопрос своими словами — одним сообщением\nЭто бесплатно и ни к чему не обязывает",
+    "Напишите вопрос одним сообщением.\nЭто бесплатно и ни к чему не обязывает",
     CANCEL_KEYBOARD
   );
 }
@@ -260,7 +261,7 @@ async function handleAdmin(msg) {
   const target = extractReplyTarget(text, msg.reply_to_message);
   if (target && target.text) {
     try {
-      await send(target.chatId, `💬 Ответ психолога:\n\n${escapeHtml(target.text)}`);
+      await send(target.chatId, `Ответ психолога:\n\n${escapeHtml(target.text)}`);
       await send(msg.chat.id, `Отправлено клиенту <code>${escapeHtml(target.chatId)}</code>`);
     } catch (e) {
       await send(msg.chat.id, `Не удалось отправить: ${escapeHtml(e.message)}`);
@@ -336,7 +337,7 @@ async function handleMessage(msg) {
   if (!session) {
     if (!text && !hasMedia) return;
     await notifyAdmin(
-      `💬 <b>Живой интерес из бота</b>\n\n` +
+      `<b>Сообщение из бота</b>\n\n` +
         `${escapeHtml(text || "(медиа)")}\n\n` +
         clientNotifyFooter(client, chatId),
       {
@@ -346,7 +347,7 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Спасибо — передал психологу\nМожете сразу записаться или уточнить вопрос кнопками ниже",
+      "Передал психологу.\nМожете записаться или уточнить вопрос кнопками ниже",
       START_KEYBOARD
     );
     return;
@@ -377,17 +378,17 @@ async function handleMessage(msg) {
       session.comment = text === "—" ? "" : text.slice(0, 500);
       sessions.delete(chatId);
       await notifyAdmin(
-        `🆕 <b>Заявка на консультацию</b>\n\n` +
+        `<b>Заявка на консультацию</b>\n\n` +
           `Имя: ${escapeHtml(session.name)}\n` +
           `Контакт: ${escapeHtml(session.contact)}\n` +
           `Запрос: ${escapeHtml(session.comment || "—")}\n` +
-          `Оффер: ${escapeHtml(SESSION_DURATION)}, ${escapeHtml(SESSION_PRICE)}\n` +
+          `Условия: ${escapeHtml(SESSION_DURATION)}, ${escapeHtml(SESSION_PRICE)}\n` +
           clientNotifyFooter(client, chatId),
         { clientChatId: chatId }
       );
       await send(
         chatId,
-        `Спасибо, ${escapeHtml(session.name)}!\nЗаявка принята — психолог ответит в течение 24 часов и согласует слот\n\nПока можно почитать, что будет на встрече: «${BTN_FIRST}»`,
+        `${escapeHtml(session.name)}, заявка принята.\nПсихолог ответит в течение 24 часов и согласует слот.\n\nО встрече: «${BTN_FIRST}»`,
         START_KEYBOARD
       );
       return;
@@ -401,14 +402,14 @@ async function handleMessage(msg) {
     }
     sessions.delete(chatId);
     await notifyAdmin(
-      `❓ <b>Вопрос (привлечение)</b>\n\n` +
+      `<b>Вопрос</b>\n\n` +
         `${escapeHtml(text.slice(0, 2000))}\n\n` +
         clientNotifyFooter(client, chatId),
       { clientChatId: chatId }
     );
     await send(
       chatId,
-      "Вопрос у психолога — ответ в течение 24 часов\nЕсли захотите встречу — нажмите «Записаться»",
+      "Вопрос у психолога — ответ в течение 24 часов.\nДля встречи — «Записаться»",
       START_KEYBOARD
     );
     return;
@@ -421,7 +422,7 @@ async function handleMessage(msg) {
     }
     sessions.delete(chatId);
     await notifyAdmin(
-      `💳 <b>Оплата</b>\n\n` +
+      `<b>Оплата</b>\n\n` +
         `${escapeHtml(text.slice(0, 1000) || "(медиа)")}\n\n` +
         clientNotifyFooter(client, chatId),
       {
@@ -431,7 +432,7 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Передал информацию об оплате — психолог подтвердит поступление",
+      "Информацию об оплате передал. Психолог подтвердит поступление",
       START_KEYBOARD
     );
     return;

@@ -29,11 +29,6 @@
     var price = config.sessionPrice || "от 5 000 ₽";
     var response = config.responseTime || "в течение 24 часов";
 
-    var heroOffer = document.getElementById("hero-offer");
-    if (heroOffer) {
-      heroOffer.textContent = [format, duration, price, "ответ " + response].join(" · ");
-    }
-
     document.querySelectorAll("[data-format]").forEach(function (el) {
       el.textContent = format;
     });
@@ -61,6 +56,31 @@
 
     var hint = document.getElementById("contact-hint");
     if (hint) hint.textContent = "Ответ " + response;
+  }
+
+  function initReveal() {
+    var nodes = document.querySelectorAll(".reveal");
+    if (!nodes.length) return;
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+      return;
+    }
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    nodes.forEach(function (el) {
+      io.observe(el);
+    });
   }
 
   function setNavOpen(open) {
@@ -116,6 +136,7 @@
   document.querySelectorAll("[data-telegram-cta]").forEach(wireTelegramCta);
 
   applyOfferCopy();
+  initReveal();
 
   if (stickyCta && "IntersectionObserver" in window) {
     var hero = document.getElementById("hero");

@@ -403,6 +403,153 @@ p {
   color: var(--color-navy);
 }
 
+.pain-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .pain-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pain-chip {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-left: 4px solid var(--color-accent);
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.pain-chip:hover {
+  border-color: var(--color-teal);
+  background: #fff;
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.steps li {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.steps span {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.section--offer {
+  background: linear-gradient(180deg, var(--color-bg) 0%, #e7eef0 100%);
+}
+
+.offer-card {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--color-border);
+}
+
+.offer-list {
+  margin: 1.5rem 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.offer-list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.offer-list dt {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.offer-list dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.offer-note {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.offer-actions,
+.contact-actions {
+  margin-top: 1.25rem;
+}
+
+.about__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--color-navy);
+}
+
+.faq details {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.faq p {
+  margin: 0.75rem 0 0;
+  color: var(--color-text-muted);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+}
+
+.btn--secondary:hover {
+  background: var(--color-navy);
+  color: #fff;
+}
+
 .methods {
   list-style: none;
   padding: 0;

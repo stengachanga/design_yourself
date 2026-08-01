@@ -2,38 +2,24 @@
 
 ## Возможности
 
-- 📅 Записаться на консультацию
-- ❓ Задать вопрос
-- 💳 Оплатить сеанс
+- 📅 Записаться на консультацию (`/start book`)
+- ❓ Задать вопрос (`/start ask`)
+- 💳 Оплатить сеанс (`/start pay`) — только после согласования
 
-Все заявки и свободные сообщения клиентов пересылаются психологу в `TELEGRAM_CHAT_ID`.
+Заявки и сообщения пересылаются в `TELEGRAM_CHAT_ID`.
+
+**Запускайте только один инстанс** (локально *или* хостинг). Два `npm start` дают `409 Conflict`.
 
 ## Настройка
 
-1. [@BotFather](https://t.me/BotFather) → `/newbot` → token  
-2. Напишите боту `/start`, затем узнайте chat_id:  
-   `https://api.telegram.org/bot<TOKEN>/getUpdates`
-3. `cp .env.example .env` и заполните:
-
-```env
-TELEGRAM_BOT_TOKEN=...
-TELEGRAM_ADMIN_USERNAME=Stenga4
-TELEGRAM_CHAT_ID=75264340
-TELEGRAM_PAYMENT_URL=https://...
-TELEGRAM_PAYMENT_DETAILS=карта / СБП ...
-```
-
-4. Запуск:
-
 ```bash
 cd bot
+cp .env.example .env
+# заполните TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID
 npm install
 npm start
 ```
 
-Нужен постоянный хостинг (Railway, Render, Fly.io, VPS).
+Deep links с сайта: `https://t.me/<bot>?start=book`
 
-## Сайт
-
-На лендинге только публичный `telegramUsername` в `js/config.js`.  
-Токен на фронт не кладётся — запись через кнопку «Перейти в Telegram-бота».
+Политика: `TELEGRAM_PRIVACY_URL` (по умолчанию страница на GitHub Pages).

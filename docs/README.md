@@ -1,4 +1,4 @@
-# Собери Себя Сам — Конструктор личности
+# Конструктор Личности
 
 Лендинг психологического консультирования (КПТ, гештальт, коучинг).
 
@@ -24,23 +24,29 @@ python -m http.server 8080
 |-------|-----|
 | Navy | `#203850` |
 | Teal | `#488088` |
-| Accent (CTA) | `#D07840` |
+| Accent (CTA) | `#B85830` |
 | Background | `#F4F4EF` |
 
 ## Контакты
 
-Настройки в `js/config.js`: email, phone, telegram, Formspree endpoint.
+Настройки в `js/config.js`: telegram username бота.
 
 ## Telegram
 
-Запись только через Telegram-бота (`telegramUsername` в `js/config.js`).
+Запись через бота: `telegramUsername` в `js/config.js`.
+CTA открывает `https://t.me/<bot>?start=book`.
 
-Бот (token / chat_id / оплата в `bot/.env`): запись, вопрос, оплата сеанса — см. [`bot/README.md`](bot/README.md).
+Бот (token только в `bot/.env`): см. [`bot/README.md`](bot/README.md). Один инстанс polling.
 
 ## Яндекс.Метрика
 
-Счётчик **110553308**. Цели: `cta_hero_click`, `cta_contact_click`, `form_submit`, `scroll_approach`, `scroll_about`, `scroll_contact`.
+Счётчик **110553308**. Цели: `cta_hero_click`, `cta_contact_click`, `cta_sticky_click`, `scroll_*`.
 
 ## GitHub Pages
 
-Push в `main` → workflow `.github/workflows/deploy.yml`.
+Push в `main` → `.github/workflows/deploy.yml`.
+
+## Ревью
+
+- `openspec/changes/gestalt-therapy-landing/reviews-agents.md`
+- Skill AppSec: `.cursor/skills/review-appsec/SKILL.md`

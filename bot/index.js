@@ -2,9 +2,9 @@
  * Telegram-бот «Конструктор Личности».
  *
  * Функции: запись на консультацию, задать вопрос, оплатить сеанс.
- * Все заявки и сообщения клиентов пересылаются психологу (TELEGRAM_CHAT_ID).
+ * Заявки пересылаются психологу (TELEGRAM_CHAT_ID).
  *
- * Хостинг: нужен постоянный процесс (Railway, Render, Fly.io, VPS) — npm start
+ * Важно: запускайте только ОДИН инстанс (локально ИЛИ хостинг), иначе 409 Conflict.
  */
 require("dotenv").config();
 
@@ -16,6 +16,9 @@ const ADMIN_USERNAME = (process.env.TELEGRAM_ADMIN_USERNAME || "")
   .toLowerCase();
 const PAYMENT_URL = (process.env.TELEGRAM_PAYMENT_URL || "").trim();
 const PAYMENT_DETAILS = (process.env.TELEGRAM_PAYMENT_DETAILS || "").trim();
+const PRIVACY_URL =
+  (process.env.TELEGRAM_PRIVACY_URL || "").trim() ||
+  "https://stengachanga.github.io/design_yourself/privacy.html";
 
 if (!TOKEN) {
   console.error("Задайте TELEGRAM_BOT_TOKEN в .env");
@@ -23,7 +26,7 @@ if (!TOKEN) {
 }
 
 if (!ADMIN_CHAT_ID || String(ADMIN_CHAT_ID).includes("PLACEHOLDER")) {
-  console.warn("TELEGRAM_CHAT_ID не задан — пересылка психологу отключена.");
+  console.warn("TELEGRAM_CHAT_ID не задан — пересылка психологу отключена");
 }
 
 const API = `https://api.telegram.org/bot${TOKEN}`;
@@ -47,6 +50,14 @@ const CANCEL_KEYBOARD = {
     resize_keyboard: true,
   },
 };
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 async function api(method, body) {
   const res = await fetch(`${API}/${method}`, {
@@ -74,17 +85,39 @@ function clientLabel(msg) {
   return { name: name || "—", username, chatId: msg.chat.id };
 }
 
+function clientNotifyFooter(client, chatId) {
+  const link = client.username !== "—"
+    ? `Профиль: https://t.me/${client.username.replace(/^@/, "")}`
+    : "Профиль: без username";
+  return (
+    `Telegram: ${escapeHtml(client.name)} (${escapeHtml(client.username)})\n` +
+    `${link}\n` +
+    `Ответ клиенту: перешлите сообщение на chat_id <code>${escapeHtml(chatId)}</code>`
+  );
+}
+
 function isAdminChat(chatId) {
   return ADMIN_CHAT_ID && String(chatId) === String(ADMIN_CHAT_ID);
 }
 
-async function notifyAdmin(text) {
+async function notifyAdmin(text, opts = {}) {
   if (!ADMIN_CHAT_ID || String(ADMIN_CHAT_ID).includes("PLACEHOLDER")) {
     console.warn("notifyAdmin skipped: TELEGRAM_CHAT_ID empty");
     return false;
   }
   try {
     await send(ADMIN_CHAT_ID, text);
+    if (opts.copyFromChatId && opts.messageId) {
+      try {
+        await api("copyMessage", {
+          chat_id: ADMIN_CHAT_ID,
+          from_chat_id: opts.copyFromChatId,
+          message_id: opts.messageId,
+        });
+      } catch (e) {
+        console.error("copyMessage:", e.message);
+      }
+    }
     return true;
   } catch (e) {
     console.error("notifyAdmin:", e.message);
@@ -93,36 +126,83 @@ async function notifyAdmin(text) {
 }
 
 function paymentInstructions() {
-  const parts = ["<b>Оплата сеанса</b>\n"];
+  const parts = [
+    "<b>Оплата сеанса</b>\n",
+    "Оплата — только после согласования даты и условий с психологом-консультантом\n",
+  ];
   if (PAYMENT_URL) {
-    parts.push(`Ссылка для оплаты:\n${PAYMENT_URL}\n`);
+    parts.push(`Ссылка для оплаты:\n${escapeHtml(PAYMENT_URL)}\n`);
   }
   if (PAYMENT_DETAILS) {
-    parts.push(`Реквизиты:\n${PAYMENT_DETAILS}\n`);
+    parts.push(`Реквизиты:\n${escapeHtml(PAYMENT_DETAILS)}\n`);
   }
   if (!PAYMENT_URL && !PAYMENT_DETAILS) {
     parts.push(
-      "Реквизиты уточнит психолог после вашего сообщения\n" +
-        "Напишите коротко: что оплачиваете и удобный способ связи"
+      "Реквизиты уточнит психолог после согласования\n" +
+        "Напишите коротко: что оплачиваете (или пришлите скрин) и удобный способ связи"
     );
   } else {
-    parts.push("После оплаты напишите сюда комментарий (ФИО плательщика / дата сеанса) — я передам психологу");
+    parts.push(
+      "После оплаты напишите комментарий или пришлите скрин — я передам психологу\n" +
+        "Подтверждение поступления ≠ начало консультации"
+    );
   }
   return parts.join("\n");
+}
+
+function welcomeText() {
+  return (
+    `<b>Конструктор Личности</b>\n\n` +
+    `Психологическое консультирование: КПТ, гештальт, коучинг\n` +
+    `Не медицинская услуга и не экстренная помощь\n` +
+    `При угрозе жизни: 112 · телефон доверия: 8-800-2000-122\n\n` +
+    `Политика: ${PRIVACY_URL}\n\n` +
+    `Выберите действие:`
+  );
+}
+
+async function startBook(chatId) {
+  sessions.set(chatId, { flow: "book", step: "name" });
+  await send(
+    chatId,
+    `Как к вам обращаться? Напишите имя\nПродолжая, вы соглашаетесь с политикой: ${PRIVACY_URL}`,
+    CANCEL_KEYBOARD
+  );
+}
+
+async function startAsk(chatId) {
+  sessions.set(chatId, { flow: "ask", step: "question" });
+  await send(chatId, "Напишите ваш вопрос одним сообщением", CANCEL_KEYBOARD);
+}
+
+async function startPay(chatId) {
+  sessions.set(chatId, { flow: "pay", step: "note" });
+  await send(chatId, paymentInstructions(), CANCEL_KEYBOARD);
+}
+
+function parseStartPayload(text) {
+  const m = text.match(/^\/start(?:@\w+)?(?:\s+(.+))?$/i);
+  if (!m) return null;
+  return (m[1] || "").trim().toLowerCase();
+}
+
+function messageText(msg) {
+  return (msg.text || msg.caption || "").trim();
 }
 
 async function handleMessage(msg) {
   if (!msg || msg.chat.type !== "private") return;
 
   const chatId = msg.chat.id;
-  const text = (msg.text || "").trim();
+  const text = messageText(msg);
   const client = clientLabel(msg);
   const fromLogin = (msg.from.username || "").toLowerCase();
+  const hasMedia = Boolean(msg.photo || msg.document);
 
   if (isAdminChat(chatId)) {
     await send(
       chatId,
-      "Это чат психолога для входящих заявок Клиенты пишут боту в личку — сюда приходят пересылки"
+      "Это чат психолога для входящих заявок — клиенты пишут боту в личку, сюда приходят пересылки"
     );
     return;
   }
@@ -138,43 +218,54 @@ async function handleMessage(msg) {
     );
   }
 
-  if (text === "/start" || text === "/help" || text === BTN_CANCEL) {
+  const startPayload = text.startsWith("/start") ? parseStartPayload(text) : null;
+  if (text === "/help" || text === BTN_CANCEL || (text.startsWith("/start") && !startPayload)) {
     sessions.delete(chatId);
-    await send(
-      chatId,
-      `<b>Конструктор Личности</b>\n\n` +
-        `Психологическое консультирование: КПТ, гештальт, коучинг\n\n` +
-        `Выберите действие:`,
-      START_KEYBOARD
-    );
+    await send(chatId, welcomeText(), START_KEYBOARD);
+    return;
+  }
+
+  if (text.startsWith("/start") && startPayload) {
+    sessions.delete(chatId);
+    if (startPayload === "book" || startPayload === "site") {
+      await startBook(chatId);
+      return;
+    }
+    if (startPayload === "ask") {
+      await startAsk(chatId);
+      return;
+    }
+    if (startPayload === "pay") {
+      await startPay(chatId);
+      return;
+    }
+    await send(chatId, welcomeText(), START_KEYBOARD);
     return;
   }
 
   if (text === BTN_BOOK || text === "/book") {
-    sessions.set(chatId, { flow: "book", step: "name" });
-    await send(chatId, "Как к вам обращаться? Напишите имя", CANCEL_KEYBOARD);
+    await startBook(chatId);
     return;
   }
 
   if (text === BTN_ASK || text === "/ask") {
-    sessions.set(chatId, { flow: "ask", step: "question" });
-    await send(chatId, "Напишите ваш вопрос одним сообщением", CANCEL_KEYBOARD);
+    await startAsk(chatId);
     return;
   }
 
   if (text === BTN_PAY || text === "/pay") {
-    sessions.set(chatId, { flow: "pay", step: "note" });
-    await send(chatId, paymentInstructions(), CANCEL_KEYBOARD);
+    await startPay(chatId);
     return;
   }
 
   const session = sessions.get(chatId);
   if (!session) {
+    if (!text && !hasMedia) return;
     await notifyAdmin(
       `💬 <b>Сообщение из бота</b>\n\n` +
-        `${text || "(без текста)"}\n\n` +
-        `Telegram: ${client.name} (${client.username})\n` +
-        `chat_id: <code>${chatId}</code>`
+        `${escapeHtml(text || "(медиа без текста)")}\n\n` +
+        clientNotifyFooter(client, chatId),
+      hasMedia ? { copyFromChatId: chatId, messageId: msg.message_id } : {}
     );
     await send(
       chatId,
@@ -185,6 +276,10 @@ async function handleMessage(msg) {
   }
 
   if (session.flow === "book") {
+    if (!text) {
+      await send(chatId, "Нужен текстовый ответ или нажмите «В меню»", CANCEL_KEYBOARD);
+      return;
+    }
     if (session.step === "name") {
       session.name = text.slice(0, 80);
       session.step = "contact";
@@ -206,15 +301,14 @@ async function handleMessage(msg) {
       sessions.delete(chatId);
       await notifyAdmin(
         `🆕 <b>Заявка на консультацию</b>\n\n` +
-          `Имя: ${session.name}\n` +
-          `Контакт: ${session.contact}\n` +
-          `Комментарий: ${session.comment || "—"}\n` +
-          `Telegram: ${client.name} (${client.username})\n` +
-          `chat_id: <code>${chatId}</code>`
+          `Имя: ${escapeHtml(session.name)}\n` +
+          `Контакт: ${escapeHtml(session.contact)}\n` +
+          `Комментарий: ${escapeHtml(session.comment || "—")}\n` +
+          clientNotifyFooter(client, chatId)
       );
       await send(
         chatId,
-        `Спасибо, ${session.name}! Заявка принята\nСвяжусь с вами в течение 24 часов`,
+        `Спасибо, ${escapeHtml(session.name)}! Заявка принята\nСвяжусь с вами в течение 24 часов`,
         START_KEYBOARD
       );
       return;
@@ -222,12 +316,15 @@ async function handleMessage(msg) {
   }
 
   if (session.flow === "ask" && session.step === "question") {
+    if (!text) {
+      await send(chatId, "Нужен текстовый вопрос или нажмите «В меню»", CANCEL_KEYBOARD);
+      return;
+    }
     sessions.delete(chatId);
     await notifyAdmin(
       `❓ <b>Вопрос из бота</b>\n\n` +
-        `${text.slice(0, 2000)}\n\n` +
-        `Telegram: ${client.name} (${client.username})\n` +
-        `chat_id: <code>${chatId}</code>`
+        `${escapeHtml(text.slice(0, 2000))}\n\n` +
+        clientNotifyFooter(client, chatId)
     );
     await send(
       chatId,
@@ -238,12 +335,20 @@ async function handleMessage(msg) {
   }
 
   if (session.flow === "pay" && session.step === "note") {
+    if (!text && !hasMedia) {
+      await send(
+        chatId,
+        "Нужен комментарий или скрин оплаты — или нажмите «В меню»",
+        CANCEL_KEYBOARD
+      );
+      return;
+    }
     sessions.delete(chatId);
     await notifyAdmin(
       `💳 <b>Оплата сеанса</b>\n\n` +
-        `${text.slice(0, 1000)}\n\n` +
-        `Telegram: ${client.name} (${client.username})\n` +
-        `chat_id: <code>${chatId}</code>`
+        `${escapeHtml(text.slice(0, 1000) || "(медиа)")}\n\n` +
+        clientNotifyFooter(client, chatId),
+      hasMedia ? { copyFromChatId: chatId, messageId: msg.message_id } : {}
     );
     await send(
       chatId,
@@ -259,7 +364,7 @@ async function handleMessage(msg) {
 
 async function poll() {
   let offset = 0;
-  console.log("Bot polling started…");
+  console.log("Bot polling started… (only one instance should run)");
   for (;;) {
     try {
       const updates = await api("getUpdates", {
@@ -281,6 +386,7 @@ async function poll() {
 module.exports = {
   handleMessage,
   notifyAdmin,
+  escapeHtml,
   BTN_BOOK,
   BTN_ASK,
   BTN_PAY,

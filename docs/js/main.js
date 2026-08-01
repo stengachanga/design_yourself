@@ -10,13 +10,12 @@
     return v.length > 0 && v.indexOf("PLACEHOLDER") === -1;
   }
 
-  function telegramUrl(prefill) {
+  function telegramUrl(startPayload) {
     if (!configured(config.telegramUsername)) return "";
     var base = "https://t.me/" + String(config.telegramUsername).replace(/^@/, "");
-    if (prefill) {
-      return base + "?text=" + encodeURIComponent(prefill);
-    }
-    return base;
+    var start = startPayload || "book";
+    if (!/^[a-z0-9_]{1,64}$/i.test(start)) start = "book";
+    return base + "?start=" + encodeURIComponent(start);
   }
 
   function setNavOpen(open) {
@@ -55,8 +54,9 @@
   });
 
   function renderTelegramButtons() {
-    var url = telegramUrl();
     document.querySelectorAll("[data-telegram-cta]").forEach(function (el) {
+      var start = el.getAttribute("data-telegram-start") || "book";
+      var url = telegramUrl(start);
       if (!url) {
         el.hidden = true;
         return;

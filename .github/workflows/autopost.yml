@@ -1,0 +1,61 @@
+name: Autopost Telegram
+
+on:
+  schedule:
+    # 09:00 UTC = 12:00 МСК
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Только показать пост, не публиковать"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      date:
+        description: "Дата YYYY-MM-DD (пусто = сегодня UTC)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autopost-telegram
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Publish due post
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          TELEGRAM_SITE_URL: https://stengachanga.github.io/design_yourself/
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          AUTOPOST_DATE: ${{ github.event.inputs.date }}
+        run: node scripts/autopost-telegram.js
+
+      - name: Commit posted status
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
+        run: |
+          if git diff --quiet -- content/queue; then
+            echo "No queue changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/queue
+          git commit -m "Mark autopost as published"
+          git push

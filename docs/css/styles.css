@@ -876,6 +876,26 @@ p {
     pointer-events: auto;
   }
 
+  .nav--legal {
+    display: flex;
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    background: transparent;
+    border: none;
+    gap: 0.75rem;
+  }
+
+  .nav--legal a {
+    padding: 0;
+    border: none;
+    font-size: 0.85rem;
+  }
+
   .nav a {
     padding: 0.9rem 0.25rem;
     border-bottom: 1px solid var(--color-border);
@@ -884,6 +904,11 @@ p {
   .nav__cta {
     margin-top: 0.5rem;
     text-align: center;
+  }
+
+  .nav--legal .nav__cta {
+    margin-top: 0;
+    padding: 0.45rem 0.9rem;
   }
 
   .section {
@@ -899,4 +924,78 @@ p {
   .offer-panel {
     padding: 1.75rem 1.25rem;
   }
+}
+
+/* Legal pages */
+.legal-page {
+  width: min(720px, 100% - 2rem);
+  margin: calc(var(--header-h) + 2.5rem) auto 4rem;
+}
+
+.legal-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.legal-page h1 {
+  margin-bottom: 0.75rem;
+}
+
+.legal-meta {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.legal-lead {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.legal-page h2 {
+  margin-top: 2rem;
+  font-size: 1.45rem;
+}
+
+.legal-page ul,
+.legal-page ol {
+  padding-left: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.legal-page li {
+  margin-bottom: 0.45rem;
+}
+
+.legal-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.pain-list button.pain-action {
+  all: unset;
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+}
+
+.pain-list button.pain-action:hover strong {
+  color: var(--color-accent);
+}
+
+.pain-list button.pain-action:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }

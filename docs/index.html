@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ольга Сотова — психолог-консультант | Конструктор Личности</title>
-  <meta name="description" content="Индивидуальные консультации онлайн от 5 000 ₽. КПТ, гештальт, коучинг. Опыт в госслужбе, бизнесе и науке. Запись в Telegram — ответ в течение 24 часов">
+  <title>Ольга Сотова — психолог-консультант онлайн | Конструктор Личности</title>
+  <meta name="description" content="Психолог-консультант Ольга Сотова: индивидуальные консультации онлайн от 5 000 ₽, 50 минут. КПТ, гештальт, коучинг. Запись в Telegram — ответ в течение 24 часов">
+  <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://stengachanga.github.io/design_yourself/">
-  <meta property="og:title" content="Конструктор Личности — запись к психологу-консультанту">
-  <meta property="og:description" content="Онлайн · 50 минут · от 5 000 ₽. Структурировать опыт, а не «пересобирать» с нуля">
+  <meta property="og:title" content="Ольга Сотова — психолог-консультант онлайн | Конструктор Личности">
+  <meta property="og:description" content="Онлайн · 50 минут · от 5 000 ₽. Структурировать опыт, а не «пересобирать» с нуля. Запись в Telegram">
   <meta property="og:url" content="https://stengachanga.github.io/design_yourself/">
   <meta property="og:image" content="https://stengachanga.github.io/design_yourself/assets/images/psychologist.jpg">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="Конструктор Личности">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Конструктор Личности — Ольга Сотова">
+  <meta name="twitter:title" content="Ольга Сотова — психолог-консультант | Конструктор Личности">
   <meta name="twitter:description" content="Онлайн-консультации от 5 000 ₽. Запись в Telegram">
   <meta name="twitter:image" content="https://stengachanga.github.io/design_yourself/assets/images/psychologist.jpg">
   <link rel="icon" type="image/jpeg" href="./assets/images/label.jpg">
@@ -28,16 +30,26 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "ProfessionalService",
+        "@type": "WebSite",
         "name": "Конструктор Личности",
-        "description": "Индивидуальное психологическое консультирование: КПТ, гештальт, коучинг",
+        "url": "https://stengachanga.github.io/design_yourself/",
+        "inLanguage": "ru-RU",
+        "publisher": { "@id": "https://stengachanga.github.io/design_yourself/#person" }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://stengachanga.github.io/design_yourself/#service",
+        "name": "Конструктор Личности",
+        "description": "Индивидуальное психологическое консультирование онлайн: КПТ, гештальт, коучинг",
         "url": "https://stengachanga.github.io/design_yourself/",
         "image": "https://stengachanga.github.io/design_yourself/assets/images/psychologist.jpg",
         "areaServed": "RU",
         "availableLanguage": "ru",
         "priceRange": "от 5000 RUB",
+        "provider": { "@id": "https://stengachanga.github.io/design_yourself/#person" },
         "offers": {
           "@type": "Offer",
+          "url": "https://stengachanga.github.io/design_yourself/#offer",
           "priceCurrency": "RUB",
           "price": "5000",
           "description": "Индивидуальная консультация 50 минут онлайн",
@@ -46,10 +58,66 @@
       },
       {
         "@type": "Person",
+        "@id": "https://stengachanga.github.io/design_yourself/#person",
         "name": "Ольга Сотова",
         "jobTitle": "Психолог-консультант",
         "alumniOf": "Московский институт психологии",
-        "worksFor": { "@type": "Organization", "name": "Конструктор Личности" }
+        "image": "https://stengachanga.github.io/design_yourself/assets/images/psychologist.jpg",
+        "worksFor": { "@type": "Organization", "name": "Конструктор Личности" },
+        "url": "https://stengachanga.github.io/design_yourself/"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Это терапия или консультация?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Психологическое консультирование, не медицина и не психиатрия. При клинических состояниях нужен врач"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Нужно ли платить сразу?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Нет. Сначала заявка или вопрос, затем слот. Оплата — после подтверждения"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно только спросить?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Кнопка бесплатного вопроса открывает бота без обязательства записи"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как быстро ответят?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ориентир — в течение 24 часов. Сообщение уходит психологу лично"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Что если формат не подойдёт?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "После первой встречи решаете вы. Нет давления продлевать. Можно начать с бесплатного вопроса в боте"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Где условия и оплата?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Кратко — в блоке цены на сайте. Подробно — на странице условий. Оплата только после согласования слота"
+            }
+          }
+        ]
       }
     ]
   }
@@ -71,7 +139,7 @@
   <header class="header" id="top">
     <div class="container header__inner">
       <a class="logo" href="#top">
-        <img src="./assets/images/label.jpg" alt="" width="44" height="44" class="logo__icon">
+        <img src="./assets/images/label.jpg" alt="Конструктор Личности" width="44" height="44" class="logo__icon">
         <span class="logo__text">Конструктор Личности</span>
       </a>
       <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
@@ -119,20 +187,28 @@
         <p class="lead reveal">Не «новая личность с нуля». Ясность, границы и решения — с учётом сферы, в которой вы живёте</p>
         <ul class="pain-list reveal">
           <li>
-            <strong>Выгорание</strong>
-            <span>Бежите, а ощущение «никуда» не отпускает</span>
+            <button type="button" class="pain-action" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click">
+              <strong>Выгорание</strong>
+              <span>Бежите, а ощущение «никуда» не отпускает — написать об этом</span>
+            </button>
           </li>
           <li>
-            <strong>Трудное решение</strong>
-            <span>Внутренний раскол мешает выбрать и двигаться</span>
+            <button type="button" class="pain-action" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click">
+              <strong>Трудное решение</strong>
+              <span>Внутренний раскол мешает выбрать — задать вопрос</span>
+            </button>
           </li>
           <li>
-            <strong>Тревога и сценарии</strong>
-            <span>Одни и те же петли — на работе и в отношениях</span>
+            <button type="button" class="pain-action" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click">
+              <strong>Тревога и сценарии</strong>
+              <span>Одни и те же петли — описать ситуацию в боте</span>
+            </button>
           </li>
           <li>
-            <strong>Отношения</strong>
-            <span>Границы, близость, прямота — без самообмана</span>
+            <button type="button" class="pain-action" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click">
+              <strong>Отношения</strong>
+              <span>Границы, близость, прямота — начать с вопроса</span>
+            </button>
           </li>
         </ul>
         <div class="section-cta reveal">
@@ -163,7 +239,7 @@
           <div><dt>Стоимость</dt><dd class="offer-price" data-price>от 5 000 ₽</dd></div>
           <div><dt>Ответ</dt><dd data-response>в течение 24 часов</dd></div>
         </dl>
-        <p class="offer-note reveal">Точная сумма и слот — после короткого запроса. Оплата только после подтверждения встречи</p>
+        <p class="offer-note reveal">Точная сумма и слот — после короткого запроса. Оплата только после подтверждения встречи. Полные условия: <a href="./offer.html">страница условий</a></p>
         <div class="hero__actions offer-actions reveal">
           <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-telegram-start="book" data-goal="cta_offer_click" target="_blank" rel="noopener">Записаться на консультацию</a>
           <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click" target="_blank" rel="noopener">Сначала задать вопрос</a>
@@ -275,6 +351,14 @@
             <summary>Как быстро ответят?</summary>
             <p>Ориентир — в течение 24 часов. Сообщение уходит психологу лично</p>
           </details>
+          <details>
+            <summary>Что если формат не подойдёт?</summary>
+            <p>После первой встречи решаете вы. Нет давления продлевать. Можно начать с бесплатного вопроса в боте</p>
+          </details>
+          <details>
+            <summary>Где условия и оплата?</summary>
+            <p>Кратко — в блоке цены на этой странице. Подробно — на <a href="./offer.html">странице условий</a>. Оплата только после согласования слота</p>
+          </details>
         </div>
       </div>
     </section>
@@ -288,7 +372,7 @@
           <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click" target="_blank" rel="noopener">Задать вопрос</a>
         </div>
         <p class="form__hint" id="contact-hint">Ответ в течение 24 часов</p>
-        <p class="contact__privacy">Продолжая в Telegram, вы соглашаетесь с <a href="./privacy.html">политикой конфиденциальности</a></p>
+        <p class="contact__privacy">Продолжая в Telegram, вы соглашаетесь с <a href="./privacy.html">политикой конфиденциальности</a> и <a href="./offer.html">условиями услуг</a></p>
       </div>
     </section>
   </main>
@@ -298,7 +382,7 @@
       <p>© 2026 Конструктор Личности · Ольга Сотова</p>
       <nav class="footer__nav" aria-label="Юридическая информация">
         <a href="./privacy.html">Политика конфиденциальности</a>
-        <a href="./offer.html">Оферта</a>
+        <a href="./offer.html">Условия</a>
         <a href="#offer">Цена</a>
         <a href="#top">Наверх</a>
         <a href="#" id="instagram-link" hidden>Instagram</a>

@@ -1,22 +1,23 @@
 :root {
-  --color-ink: #141618;
-  --color-slate: #2a3036;
-  --color-bronze: #6e5c42;
-  --color-bronze-dark: #584a35;
-  --color-stone: #d7dad6;
-  --color-stone-deep: #c5c9c4;
+  /* Palette from Label.jpg + stoic structure */
+  --color-ink: #203850;
+  --color-slate: #203850;
+  --color-bronze: #b85830;
+  --color-bronze-dark: #a84e28;
+  --color-stone: #d5d8d4;
+  --color-stone-deep: #c4c8c3;
   --color-bg: #e8ebe7;
-  --color-bg-alt: #dde1dc;
-  --color-surface: #f3f4f1;
-  --color-text: #141618;
-  --color-text-muted: #4a5056;
-  --color-border: #b8beb8;
+  --color-bg-alt: #dde2df;
+  --color-surface: #f2f4f1;
+  --color-text: #1a1f24;
+  --color-text-muted: #4a555c;
+  --color-border: #b5bdb8;
   --color-on-ink: #e8ebe7;
-  --color-navy: #2a3036;
-  --color-accent: #6e5c42;
-  --color-accent-dark: #584a35;
-  --color-teal: #4a5854;
-  --color-teal-dark: #3a4642;
+  --color-navy: #203850;
+  --color-accent: #b85830;
+  --color-accent-dark: #a84e28;
+  --color-teal: #488088;
+  --color-teal-dark: #306070;
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --radius: 2px;
@@ -156,7 +157,7 @@ em {
   font-weight: 600;
   letter-spacing: 0.04em;
   margin: 0 0 1rem;
-  color: #d4c4a8;
+  color: #e8b890;
 }
 
 .lead {
@@ -337,8 +338,8 @@ em {
   align-items: flex-end;
   min-height: min(92vh, 860px);
   background:
-    linear-gradient(105deg, rgba(20, 22, 24, 0.92) 0%, rgba(20, 22, 24, 0.62) 46%, rgba(20, 22, 24, 0.2) 100%),
-    linear-gradient(0deg, rgba(20, 22, 24, 0.55) 0%, transparent 42%);
+    linear-gradient(105deg, rgba(32, 56, 80, 0.92) 0%, rgba(32, 56, 80, 0.62) 46%, rgba(32, 56, 80, 0.2) 100%),
+    linear-gradient(0deg, rgba(32, 56, 80, 0.55) 0%, transparent 42%);
   color: #fff;
   padding: 3rem 0 4rem;
 }
@@ -522,10 +523,15 @@ em {
 }
 
 /* Methods */
+.methods__title {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.25rem;
+}
+
 .methods {
   list-style: none;
   padding: 0;
-  margin: 1.5rem 0 0;
+  margin: 0.75rem 0 0;
   display: grid;
   gap: 1rem;
 }
@@ -537,6 +543,14 @@ em {
 
 .methods li:last-child {
   border-bottom: none;
+}
+
+.methods-note {
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+  color: var(--color-teal-dark);
+  border-left: 2px solid var(--color-teal);
+  padding-left: 1rem;
 }
 
 /* About */
@@ -664,18 +678,26 @@ em {
   border-bottom: 1px solid var(--color-border);
 }
 
+.section--ink .guarantees {
+  border-top-color: rgba(232, 235, 231, 0.25);
+}
+
+.section--ink .guarantees li {
+  border-bottom-color: rgba(232, 235, 231, 0.25);
+}
+
 .guarantees strong {
   display: block;
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.35rem;
-  color: var(--color-ink);
+  color: #fff;
 }
 
 .guarantees p {
   margin: 0;
-  color: var(--color-text-muted);
+  color: rgba(232, 235, 231, 0.82);
 }
 
 /* FAQ */
@@ -840,7 +862,7 @@ em {
   .hero__veil {
     align-items: flex-end;
     background:
-      linear-gradient(180deg, rgba(20, 22, 24, 0.25) 0%, rgba(20, 22, 24, 0.88) 70%),
-      linear-gradient(90deg, rgba(20, 22, 24, 0.55), transparent 70%);
+      linear-gradient(180deg, rgba(32, 56, 80, 0.25) 0%, rgba(32, 56, 80, 0.88) 70%),
+      linear-gradient(90deg, rgba(32, 56, 80, 0.55), transparent 70%);
   }
 }

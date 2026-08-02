@@ -1,8 +1,7 @@
 window.SITE_CONFIG = {
   siteUrl: "https://stengachanga.github.io/design_yourself",
   brandName: "Конструктор Личности",
-  /* Заполните ФИО — без имени сайт слабее продаёт */
-  specialistName: "",
+  specialistName: "Мария Стеньгач",
   specialistTitle: "Психолог-консультант",
   education: "Московский институт психологии",
   sessionFormat: "Онлайн",
@@ -12,4 +11,6 @@ window.SITE_CONFIG = {
   contactEmail: "",
   contactPhone: "",
   telegramUsername: "soberi_sebya_sam_bot",
+  /* Если пришлёте @ник — добавим ссылку в футер */
+  instagramUsername: "",
 };

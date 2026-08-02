@@ -29,6 +29,11 @@
     var price = config.sessionPrice || "от 5 000 ₽";
     var response = config.responseTime || "в течение 24 часов";
 
+    var heroOffer = document.getElementById("hero-offer");
+    if (heroOffer) {
+      heroOffer.textContent = [format, duration, price, "ответ " + response].join(" · ");
+    }
+
     document.querySelectorAll("[data-format]").forEach(function (el) {
       el.textContent = format;
     });
@@ -56,6 +61,15 @@
 
     var hint = document.getElementById("contact-hint");
     if (hint) hint.textContent = "Ответ " + response;
+
+    var ig = document.getElementById("instagram-link");
+    if (ig && configured(config.instagramUsername)) {
+      ig.hidden = false;
+      ig.href = "https://instagram.com/" + String(config.instagramUsername).replace(/^@/, "");
+      ig.target = "_blank";
+      ig.rel = "noopener";
+      ig.textContent = "Instagram";
+    }
   }
 
   function initReveal() {

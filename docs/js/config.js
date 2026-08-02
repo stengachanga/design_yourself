@@ -1,7 +1,7 @@
-window.SITE_CONFIG = {
+﻿window.SITE_CONFIG = {
   siteUrl: "https://stengachanga.github.io/design_yourself",
   brandName: "Конструктор Личности",
-  specialistName: "Мария Стеньгач",
+  specialistName: "Ольга Сотова",
   specialistTitle: "Психолог-консультант",
   education: "Московский институт психологии",
   sessionFormat: "Онлайн",

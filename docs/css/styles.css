@@ -361,6 +361,12 @@ p {
   padding: 1rem 0;
 }
 
+@media (max-width: 767px) {
+  .strip--sell {
+    display: none;
+  }
+}
+
 .strip__inner {
   display: flex;
   flex-wrap: wrap;
@@ -980,22 +986,4 @@ p {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-border);
-}
-
-.pain-list button.pain-action {
-  all: unset;
-  cursor: pointer;
-  display: grid;
-  gap: 0.35rem;
-  width: 100%;
-  text-align: left;
-}
-
-.pain-list button.pain-action:hover strong {
-  color: var(--color-accent);
-}
-
-.pain-list button.pain-action:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 4px;
 }

@@ -180,7 +180,7 @@ function paymentInstructions() {
 function welcomeText() {
   return (
     `<b>Конструктор Личности</b>\n\n` +
-    `Задача: не пересобрать, а структурировать\n` +
+    `Цель: не пересобрать, а структурировать\n` +
     `Различаем, что в вашей власти, и действуем\n\n` +
     `Онлайн · ${escapeHtml(SESSION_DURATION)} · ${escapeHtml(SESSION_PRICE)}\n` +
     `Ответ — в течение 24 часов\n\n` +

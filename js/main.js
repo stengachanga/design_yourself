@@ -55,8 +55,8 @@
       var name = configured(config.specialistName) ? config.specialistName : "";
       var title = config.specialistTitle || "Психолог-консультант";
       line.textContent = name
-        ? name + " — " + title + " практики «" + (config.brandName || "Конструктор Личности") + "»"
-        : title + " практики «" + (config.brandName || "Конструктор Личности") + "»";
+        ? name + " — " + title
+        : title;
     }
 
     var hint = document.getElementById("contact-hint");

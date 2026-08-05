@@ -2,7 +2,7 @@
   siteUrl: "https://stengachanga.github.io/design_yourself",
   brandName: "Конструктор Личности",
   specialistName: "Ольга Сотова",
-  specialistTitle: "Психолог-консультант",
+  specialistTitle: "психолог-консультант",
   education: "Московский институт психологии",
   sessionFormat: "Онлайн",
   sessionDuration: "50 минут",

@@ -8,7 +8,7 @@
   sessionDuration: "50 минут",
   sessionPrice: "от 5 000 ₽",
   responseTime: "в течение 24 часов",
-  contactEmail: "",
+  contactEmail: "hello@example.com",
   contactPhone: "",
   telegramUsername: "soberi_sebya_sam_bot",
   /* Если пришлёте @ник — добавим ссылку в футер */

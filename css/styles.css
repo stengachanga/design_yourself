@@ -782,10 +782,15 @@ p {
   color: var(--color-text-muted);
 }
 
-.contact__privacy {
-  margin-top: 1rem;
-  font-size: 0.9rem;
+.contact__email {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
+}
+
+.contact__email-note {
+  font-size: 0.85rem;
+  opacity: 0.75;
 }
 
 /* Footer */

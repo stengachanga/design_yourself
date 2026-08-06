@@ -70,6 +70,23 @@
       ig.rel = "noopener";
       ig.textContent = "Instagram";
     }
+
+    var email = configured(config.contactEmail) ? String(config.contactEmail).trim() : "";
+    var emailLine = document.getElementById("contact-email-line");
+    var emailLink = document.getElementById("contact-email-link");
+    var footerEmail = document.getElementById("footer-email");
+    if (email) {
+      if (emailLine && emailLink) {
+        emailLine.hidden = false;
+        emailLink.href = "mailto:" + email;
+        emailLink.textContent = email;
+      }
+      if (footerEmail) {
+        footerEmail.hidden = false;
+        footerEmail.href = "mailto:" + email;
+        footerEmail.textContent = email;
+      }
+    }
   }
 
   function initReveal() {

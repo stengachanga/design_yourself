@@ -25,7 +25,7 @@
 
   function applyOfferCopy() {
     var format = config.sessionFormat || "Онлайн";
-    var duration = config.sessionDuration || "50 минут";
+    var duration = config.sessionDuration || "от 50 минут";
     var price = config.sessionPrice || "от 5 000 ₽";
     var response = config.responseTime || "в течение 24 часов";
 

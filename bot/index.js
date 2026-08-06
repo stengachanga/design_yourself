@@ -21,7 +21,7 @@ const PRIVACY_URL =
   (process.env.TELEGRAM_PRIVACY_URL || "").trim() ||
   "https://stengachanga.github.io/design_yourself/privacy.html";
 const SESSION_PRICE = (process.env.TELEGRAM_SESSION_PRICE || "от 5 000 ₽").trim();
-const SESSION_DURATION = (process.env.TELEGRAM_SESSION_DURATION || "50 минут").trim();
+const SESSION_DURATION = (process.env.TELEGRAM_SESSION_DURATION || "от 50 минут").trim();
 const SITE_URL =
   (process.env.TELEGRAM_SITE_URL || "").trim() ||
   "https://stengachanga.github.io/design_yourself/";
@@ -42,7 +42,7 @@ const recentClients = new Map();
 
 const BTN_BOOK = "Записаться";
 const BTN_ASK = "Задать вопрос";
-const BTN_FIRST = "Что будет на встрече";
+const BTN_FIRST = "Что будет на сессии";
 const BTN_PAY = "Оплатить сеанс";
 const BTN_CANCEL = "В меню";
 
@@ -181,7 +181,7 @@ function welcomeText() {
   return (
     `<b>Конструктор Личности</b>\n\n` +
     `Цель: не пересобрать, а структурировать\n` +
-    `Различаем, что в вашей власти, и действуем\n\n` +
+    `Различаем, что в Вашей власти, и действуем\n\n` +
     `Онлайн · ${escapeHtml(SESSION_DURATION)} · ${escapeHtml(SESSION_PRICE)}\n` +
     `Ответ — в течение 24 часов\n\n` +
     `Не медицина и не экстренная помощь\n` +
@@ -194,12 +194,12 @@ function welcomeText() {
 
 function firstMeetingText() {
   return (
-    `<b>Первая встреча</b>\n\n` +
-    `• 50 минут онлайн\n` +
+    `<b>Первая сессия</b>\n\n` +
+    `• от 50 минут онлайн\n` +
     `• проясняем запрос и рамки\n` +
-    `• учитываем сферу вашего опыта — психология в госслужбе, бизнесе и науке разная\n` +
+    `• учитываем сферу Вашего опыта — психология в госслужбе, бизнесе и науке разная\n` +
     `• без давления\n` +
-    `• дальше решаете вы — продолжать или нет\n\n` +
+    `• дальше решаете Вы — продолжать или нет\n\n` +
     `Готовы — «Записаться». Сомневаетесь — «Задать вопрос»`
   );
 }
@@ -208,7 +208,7 @@ async function startBook(chatId) {
   sessions.set(chatId, { flow: "book", step: "name" });
   await send(
     chatId,
-    `Запись на консультацию.\n\nКак к вам обращаться?`,
+    `Запись на консультацию.\n\nКак к Вам обращаться?`,
     CANCEL_KEYBOARD
   );
 }
@@ -389,7 +389,7 @@ async function handleMessage(msg) {
       );
       await send(
         chatId,
-        `${escapeHtml(session.name)}, заявка принята\nПсихолог ответит в течение 24 часов и согласует слот\n\nО встрече: «${BTN_FIRST}»`,
+        `${escapeHtml(session.name)}, заявка принята\nПсихолог ответит в течение 24 часов и согласует слот\n\nО сессии: «${BTN_FIRST}»`,
         START_KEYBOARD
       );
       return;
@@ -410,7 +410,7 @@ async function handleMessage(msg) {
     );
     await send(
       chatId,
-      "Вопрос у психолога — ответ в течение 24 часов\nДля встречи — «Записаться»",
+      "Вопрос у психолога — ответ в течение 24 часов\nДля сессии — «Записаться»",
       START_KEYBOARD
     );
     return;

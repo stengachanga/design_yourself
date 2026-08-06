@@ -10,17 +10,17 @@
     return v.length > 0 && v.indexOf("PLACEHOLDER") === -1;
   }
 
-  function telegramUrl(startPayload) {
-    if (!configured(config.telegramUsername)) return "";
-    var base = "https://t.me/" + String(config.telegramUsername).replace(/^@/, "");
-    var start = startPayload || "book";
-    if (!/^[a-z0-9_]{1,64}$/i.test(start)) start = "book";
-    return base + "?start=" + encodeURIComponent(start);
+  function contactTelegramUrl() {
+    if (!configured(config.telegramContactUsername)) return "";
+    return (
+      "https://t.me/" +
+      String(config.telegramContactUsername).replace(/^@/, "").trim()
+    );
   }
 
-  function openTelegram(startPayload) {
-    var url = telegramUrl(startPayload);
-    if (url) window.open(url, "_blank", "noopener");
+  function contactEmailUrl() {
+    if (!configured(config.contactEmail)) return "";
+    return "mailto:" + String(config.contactEmail).trim();
   }
 
   function applyOfferCopy() {
@@ -54,9 +54,7 @@
     if (line) {
       var name = configured(config.specialistName) ? config.specialistName : "";
       var title = config.specialistTitle || "Психолог-консультант";
-      line.textContent = name
-        ? name + " — " + title
-        : title;
+      line.textContent = name ? name + " — " + title : title;
     }
 
     var hint = document.getElementById("contact-hint");
@@ -74,11 +72,11 @@
     var tgContact = configured(config.telegramContactUsername)
       ? String(config.telegramContactUsername).replace(/^@/, "").trim()
       : "";
+    var tgHref = contactTelegramUrl();
     var tgLine = document.getElementById("contact-telegram-line");
     var tgLink = document.getElementById("contact-telegram-link");
     var footerTg = document.getElementById("footer-telegram");
-    if (tgContact) {
-      var tgHref = "https://t.me/" + tgContact;
+    if (tgContact && tgHref) {
       var tgLabel = "@" + tgContact;
       if (tgLine && tgLink) {
         tgLine.hidden = false;
@@ -114,7 +112,7 @@
       }
       if (emailInline) {
         emailInline.hidden = false;
-        emailInline.textContent = "или email";
+        emailInline.textContent = " или email";
       }
     } else if (emailInline) {
       emailInline.hidden = true;
@@ -170,9 +168,9 @@
     });
   }
 
-  function wireTelegramCta(el) {
-    var start = el.getAttribute("data-telegram-start") || "book";
-    var url = telegramUrl(start);
+  function wireContactCta(el) {
+    var channel = (el.getAttribute("data-contact") || "telegram").toLowerCase();
+    var url = channel === "email" ? contactEmailUrl() : contactTelegramUrl();
     if (!url) {
       el.hidden = true;
       return;
@@ -180,16 +178,17 @@
     el.hidden = false;
     if (el.tagName === "A") {
       el.href = url;
-      el.target = "_blank";
-      el.rel = "noopener";
-    } else {
-      el.addEventListener("click", function () {
-        openTelegram(start);
-      });
+      if (channel === "telegram") {
+        el.target = "_blank";
+        el.rel = "noopener";
+      } else {
+        el.removeAttribute("target");
+        el.removeAttribute("rel");
+      }
     }
   }
 
-  document.querySelectorAll("[data-telegram-cta]").forEach(wireTelegramCta);
+  document.querySelectorAll("[data-contact]").forEach(wireContactCta);
 
   applyOfferCopy();
   initReveal();
@@ -208,4 +207,3 @@
     }
   }
 })();
-

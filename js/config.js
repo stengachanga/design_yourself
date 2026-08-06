@@ -8,13 +8,11 @@
   sessionDuration: "50 минут",
   sessionPrice: "от 5 000 ₽",
   responseTime: "в течение 24 часов",
-  /* Пусто = email на сайте не показывается; заполните — появится в контактах и футере */
-  contactEmail: "",
+  contactEmail: "personalityconstructor@mail.ru",
   contactPhone: "",
-  /* Бот для записи / вопроса (кнопки CTA) */
-  telegramUsername: "soberi_sebya_sam_bot",
-  /* Личный Telegram для связи без бота */
+  /* Личный Telegram — кнопки CTA и контакты */
   telegramContactUsername: "personalityconstructor",
-  /* Если пришлёте @ник — добавим ссылку в футер */
+  /* Опционально: бот (если понадобится снова) */
+  telegramUsername: "soberi_sebya_sam_bot",
   instagramUsername: "",
 };

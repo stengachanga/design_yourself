@@ -788,15 +788,17 @@ p {
   color: var(--color-text-muted);
 }
 
+.contact__direct,
 .contact__email {
   margin-top: 0.75rem;
   font-size: 0.95rem;
   color: var(--color-text-muted);
 }
 
-.contact__email-note {
-  font-size: 0.85rem;
-  opacity: 0.75;
+.contact__direct a,
+.contact__email a {
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 /* Footer */

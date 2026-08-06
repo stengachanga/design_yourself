@@ -122,16 +122,6 @@
     ]
   }
   </script>
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110553308', 'ym');
-    ym(110553308, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/110553308" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -150,7 +140,7 @@
         <a href="#offer">Цена</a>
         <a href="#about">Обо мне</a>
         <a href="#faq">Вопросы</a>
-        <a href="#contact" class="nav__cta" data-goal="cta_contact_click">Записаться</a>
+        <a href="#contact" class="nav__cta">Записаться</a>
       </nav>
     </div>
   </header>
@@ -166,8 +156,8 @@
           <h1>Цель: не пересобрать, а структурировать</h1>
           <p class="hero__subtitle">Индивидуальные консультации онлайн. Когда «всё есть», но нет ясности — собираем устойчивые опоры из того, что уже Ваше</p>
           <div class="hero__actions">
-            <a href="#" class="btn btn--primary" data-telegram-cta data-telegram-start="book" data-goal="cta_hero_click" target="_blank" rel="noopener">Записаться на консультацию</a>
-            <a href="#" class="btn btn--ghost" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click" target="_blank" rel="noopener">Бесплатный вопрос</a>
+            <a href="#" class="btn btn--primary" data-telegram-cta data-telegram-start="book" target="_blank" rel="noopener">Записаться на консультацию</a>
+            <a href="#" class="btn btn--ghost" data-telegram-cta data-telegram-start="ask" target="_blank" rel="noopener">Бесплатный вопрос</a>
           </div>
           <p class="hero__proof" id="hero-offer">Онлайн · 50 минут · от 5 000 ₽ · ответ в течение 24 часов</p>
         </div>
@@ -177,7 +167,7 @@
     <section class="strip strip--sell">
       <div class="container strip__inner">
         <p><strong>Запись без формы на сайте</strong> — сразу диалог с психологом в Telegram</p>
-        <a href="#" class="btn btn--primary btn--sm" data-telegram-cta data-telegram-start="book" data-goal="cta_strip_click" target="_blank" rel="noopener">Написать сейчас</a>
+        <a href="#" class="btn btn--primary btn--sm" data-telegram-cta data-telegram-start="book" target="_blank" rel="noopener">Написать сейчас</a>
       </div>
     </section>
 
@@ -229,8 +219,8 @@
         </dl>
         <p class="offer-note reveal">Точная сумма и согласование слота после короткого запроса. Оплата только после подтверждения встречи. Полные условия: <a href="./offer.html">страница условий</a></p>
         <div class="hero__actions offer-actions reveal">
-          <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-telegram-start="book" data-goal="cta_offer_click" target="_blank" rel="noopener">Записаться на консультацию</a>
-          <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click" target="_blank" rel="noopener">Сначала задать вопрос</a>
+          <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-telegram-start="book" target="_blank" rel="noopener">Записаться на консультацию</a>
+          <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" target="_blank" rel="noopener">Сначала задать вопрос</a>
         </div>
       </div>
     </section>
@@ -354,12 +344,13 @@
         <h2 class="reveal">Готовы?</h2>
         <p class="lead reveal">Один клик — и вы в диалоге. Запись, вопрос или оплата согласованного сеанса</p>
         <div class="hero__actions contact-actions reveal">
-          <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-telegram-start="book" data-goal="cta_contact_click" target="_blank" rel="noopener">Записаться на консультацию</a>
-          <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" data-goal="cta_ask_click" target="_blank" rel="noopener">Задать вопрос</a>
+          <a href="#" class="btn btn--primary btn--lg" data-telegram-cta data-telegram-start="book" target="_blank" rel="noopener">Записаться на консультацию</a>
+          <a href="#" class="btn btn--secondary" data-telegram-cta data-telegram-start="ask" target="_blank" rel="noopener">Задать вопрос</a>
         </div>
         <p class="form__hint" id="contact-hint">Ответ в течение 24 часов</p>
-        <p class="contact__privacy">Связь только через Telegram или email. На сайте нет форм сбора данных. Продолжая в Telegram, вы соглашаетесь с <a href="./privacy.html">политикой конфиденциальности</a> и <a href="./offer.html">условиями услуг</a></p>
-        <p class="contact__email" id="contact-email-line" hidden>Email: <a href="#" id="contact-email-link"></a> <span class="contact__email-note">(заглушка)</span></p>
+        <p class="contact__direct" id="contact-telegram-line" hidden>Telegram: <a href="#" id="contact-telegram-link"></a></p>
+        <p class="contact__email" id="contact-email-line" hidden>Email: <a href="#" id="contact-email-link"></a></p>
+        <p class="contact__privacy">Персональные данные на сайте не собираются. Связь — через Telegram<span id="contact-email-inline" hidden> или email</span>. <a href="./privacy.html">Подробнее</a> · <a href="./offer.html">Условия</a></p>
       </div>
     </section>
   </main>
@@ -371,6 +362,7 @@
         <a href="./privacy.html">Политика конфиденциальности</a>
         <a href="./offer.html">Условия</a>
         <a href="#offer">Цена</a>
+        <a href="#" id="footer-telegram" hidden>Telegram</a>
         <a href="#" id="footer-email" hidden>Email</a>
         <a href="#top">Наверх</a>
         <a href="#" id="instagram-link" hidden>Instagram</a>
@@ -378,10 +370,9 @@
     </div>
   </footer>
 
-  <a href="#" class="sticky-cta" id="sticky-cta" data-telegram-cta data-telegram-start="book" data-goal="cta_sticky_click" target="_blank" rel="noopener" aria-label="Записаться">Записаться</a>
+  <a href="#" class="sticky-cta" id="sticky-cta" data-telegram-cta data-telegram-start="book" target="_blank" rel="noopener" aria-label="Записаться">Записаться</a>
 
   <script src="./js/config.js"></script>
-  <script src="./js/metrika.js"></script>
   <script src="./js/main.js"></script>
 </body>
 </html>

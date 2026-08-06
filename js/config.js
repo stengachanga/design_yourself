@@ -8,9 +8,13 @@
   sessionDuration: "50 минут",
   sessionPrice: "от 5 000 ₽",
   responseTime: "в течение 24 часов",
-  contactEmail: "hello@example.com",
+  /* Пусто = email на сайте не показывается; заполните — появится в контактах и футере */
+  contactEmail: "",
   contactPhone: "",
+  /* Бот для записи / вопроса (кнопки CTA) */
   telegramUsername: "soberi_sebya_sam_bot",
+  /* Личный Telegram для связи без бота */
+  telegramContactUsername: "personalityconstructor",
   /* Если пришлёте @ник — добавим ссылку в футер */
   instagramUsername: "",
 };

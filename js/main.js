@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   var burger = document.querySelector(".burger");
   var nav = document.getElementById("nav");
   var stickyCta = document.getElementById("sticky-cta");
@@ -71,10 +71,36 @@
       ig.textContent = "Instagram";
     }
 
+    var tgContact = configured(config.telegramContactUsername)
+      ? String(config.telegramContactUsername).replace(/^@/, "").trim()
+      : "";
+    var tgLine = document.getElementById("contact-telegram-line");
+    var tgLink = document.getElementById("contact-telegram-link");
+    var footerTg = document.getElementById("footer-telegram");
+    if (tgContact) {
+      var tgHref = "https://t.me/" + tgContact;
+      var tgLabel = "@" + tgContact;
+      if (tgLine && tgLink) {
+        tgLine.hidden = false;
+        tgLink.href = tgHref;
+        tgLink.textContent = tgLabel;
+        tgLink.target = "_blank";
+        tgLink.rel = "noopener";
+      }
+      if (footerTg) {
+        footerTg.hidden = false;
+        footerTg.href = tgHref;
+        footerTg.textContent = tgLabel;
+        footerTg.target = "_blank";
+        footerTg.rel = "noopener";
+      }
+    }
+
     var email = configured(config.contactEmail) ? String(config.contactEmail).trim() : "";
     var emailLine = document.getElementById("contact-email-line");
     var emailLink = document.getElementById("contact-email-link");
     var footerEmail = document.getElementById("footer-email");
+    var emailInline = document.getElementById("contact-email-inline");
     if (email) {
       if (emailLine && emailLink) {
         emailLine.hidden = false;
@@ -86,6 +112,12 @@
         footerEmail.href = "mailto:" + email;
         footerEmail.textContent = email;
       }
+      if (emailInline) {
+        emailInline.hidden = false;
+        emailInline.textContent = "или email";
+      }
+    } else if (emailInline) {
+      emailInline.hidden = true;
     }
   }
 
@@ -138,13 +170,6 @@
     });
   }
 
-  document.querySelectorAll("[data-goal]").forEach(function (el) {
-    el.addEventListener("click", function () {
-      var goal = el.getAttribute("data-goal");
-      if (goal && window.reachMetrikaGoal) window.reachMetrikaGoal(goal);
-    });
-  });
-
   function wireTelegramCta(el) {
     var start = el.getAttribute("data-telegram-start") || "book";
     var url = telegramUrl(start);
@@ -183,3 +208,4 @@
     }
   }
 })();
+

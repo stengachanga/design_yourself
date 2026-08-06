@@ -208,7 +208,7 @@ async function startBook(chatId) {
   sessions.set(chatId, { flow: "book", step: "name" });
   await send(
     chatId,
-    `Запись на консультацию.\n\nКак к вам обращаться?\n(продолжая, вы соглашаетесь с политикой: ${escapeHtml(PRIVACY_URL)})`,
+    `Запись на консультацию.\n\nКак к вам обращаться?`,
     CANCEL_KEYBOARD
   );
 }

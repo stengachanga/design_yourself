@@ -83,7 +83,7 @@ function buildMessage(post) {
   const cta =
     `\n\n———\n` +
     `Консультация онлайн · от 5 000 ₽\n` +
-    `<a href="${escapeHtml(SITE_URL)}">Записаться</a> · бот @soberi_sebya_sam_bot`;
+    `<a href="${escapeHtml(SITE_URL)}">Записаться</a> · <a href="https://t.me/personalityconstructor">@personalityconstructor</a>`;
   return `${title}${post.body}${cta}`;
 }
 

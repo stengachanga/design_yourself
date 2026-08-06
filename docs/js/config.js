@@ -10,9 +10,8 @@
   responseTime: "в течение 24 часов",
   contactEmail: "personalityconstructor@mail.ru",
   contactPhone: "",
-  /* Личный Telegram — кнопки CTA и контакты */
+  /* Все CTA и контакты — личный чат, не бот */
   telegramContactUsername: "personalityconstructor",
-  /* Опционально: бот (если понадобится снова) */
-  telegramUsername: "soberi_sebya_sam_bot",
+  telegramUsername: "personalityconstructor",
   instagramUsername: "",
 };

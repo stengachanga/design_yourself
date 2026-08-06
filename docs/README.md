@@ -29,18 +29,19 @@ python -m http.server 8080
 
 ## Контакты
 
-Настройки в `js/config.js`: telegram username бота.
+Настройки в `js/config.js`:
+- Telegram: `@personalityconstructor`
+- Email: `personalityconstructor@mail.ru`
+
+Кнопки на сайте открывают чат Telegram или `mailto:` — без бота.
 
 ## Telegram
 
-Запись через бота: `telegramUsername` в `js/config.js`.
-CTA открывает `https://t.me/<bot>?start=book`.
+Опциональный бот для внутренних сценариев: [`bot/README.md`](bot/README.md) (token только в `bot/.env`). На лендинге CTA ведут в личный чат `@personalityconstructor`.
 
-Бот (token только в `bot/.env`): см. [`bot/README.md`](bot/README.md). Один инстанс polling.
+## Аналитика
 
-## Яндекс.Метрика
-
-Счётчик **110553308**. Цели: `cta_hero_click`, `cta_contact_click`, `cta_sticky_click`, `scroll_*`.
+Счётчики на сайте отключены: персональные данные посетителей не собираются.
 
 ## GitHub Pages
 
